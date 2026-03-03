@@ -1,222 +1,143 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Palette, ChevronLeft, ChevronRight, RotateCcw, Paintbrush, Info } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Sparkles, Paintbrush, RotateCcw, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import ColorPicker from './ColorPicker';
+import { builtInDemoPairs, pickBestPair } from './DemoPairs';
 
-const surfaces = [
-  { id: 'walls', name: 'Walls / Siding', color: '#3b82f6', hint: 'Click on the walls or siding' },
-  { id: 'trim', name: 'Trim & Molding', color: '#f59e0b', hint: 'Click on trim or baseboards' },
-  { id: 'ceiling', name: 'Ceiling', color: '#8b5cf6', hint: 'Click on the ceiling area' },
-  { id: 'doors', name: 'Doors', color: '#10b981', hint: 'Click on door panels' },
-  { id: 'cabinet_doors', name: 'Cabinet Doors', color: '#f43f5e', hint: 'Click on cabinet doors' },
-  { id: 'cabinet_frames', name: 'Cabinet Frames', color: '#06b6d4', hint: 'Click on cabinet frames' },
+const ALL_SURFACES = [
+  { id: 'siding',         name: 'Siding',          color: '#3b82f6', services: ['exterior'] },
+  { id: 'walls',          name: 'Walls',            color: '#3b82f6', services: ['interior', 'cabinet'] },
+  { id: 'trim',           name: 'Trim',             color: '#f59e0b', services: ['exterior', 'interior', 'trim'] },
+  { id: 'doors',          name: 'Doors',            color: '#10b981', services: ['exterior', 'interior', 'trim'] },
+  { id: 'shutters',       name: 'Shutters',         color: '#8b5cf6', services: ['exterior'] },
+  { id: 'garage',         name: 'Garage',           color: '#6b7280', services: ['exterior'] },
+  { id: 'ceiling',        name: 'Ceiling',          color: '#a855f7', services: ['interior'] },
+  { id: 'cabinet_doors',  name: 'Cabinet Doors',    color: '#f43f5e', services: ['cabinet'] },
+  { id: 'cabinet_frames', name: 'Cabinet Frames',   color: '#06b6d4', services: ['cabinet'] },
+  { id: 'deck',           name: 'Deck / Fence',     color: '#92400e', services: ['deck'] },
+];
+
+const ANALYZING_MESSAGES = [
+  'Analyzing surfaces…',
+  'Detecting edges and materials…',
+  'Applying color profiles…',
+  'Rendering final preview…',
 ];
 
 export default function Visualizer({ photos, service, onComplete, onBack }) {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [surfaceColors, setSurfaceColors] = useState({}); // { surfaceId: { color, sheen } }
   const [activeSurface, setActiveSurface] = useState(null);
   const [showColorPicker, setShowColorPicker] = useState(false);
-  // { [photoIndex]: { [surfaceId]: { color, regions: [{x,y,radius}] } } }
-  const [paintData, setPaintData] = useState({});
-  const [showSlider, setShowSlider] = useState(false);
+
+  // Rendering state
+  const [rendered, setRendered] = useState(false);
+  const [rendering, setRendering] = useState(false);
+  const [renderMsgIdx, setRenderMsgIdx] = useState(0);
+  const [afterOpacity, setAfterOpacity] = useState(0);
+
+  // Slider
   const [sliderPos, setSliderPos] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const sliderRef = useRef(null);
 
-  const beforeCanvasRef = useRef(null);
-  const afterCanvasRef = useRef(null);
-  const sliderContainerRef = useRef(null);
-  const imgRef = useRef(null);
-  const [imgLoaded, setImgLoaded] = useState(false);
+  // Selected demo pair
+  const [activePair, setActivePair] = useState(null);
 
-  const currentPhoto = photos[currentPhotoIndex];
-  const currentPaint = paintData[currentPhotoIndex] || {};
+  const relevantSurfaces = ALL_SURFACES.filter(s => s.services.includes(service));
 
-  const relevantSurfaces = surfaces.filter(s => {
-    if (service === 'cabinet') return ['cabinet_doors', 'cabinet_frames', 'walls'].includes(s.id);
-    if (service === 'trim') return ['trim', 'doors'].includes(s.id);
-    if (service === 'exterior') return ['walls', 'trim', 'doors'].includes(s.id);
-    return ['walls', 'trim', 'ceiling', 'doors'].includes(s.id);
+  // Load admin-uploaded pairs from DB, fall back to built-ins
+  const { data: dbPairs = [] } = useQuery({
+    queryKey: ['demoPairs', service],
+    queryFn: () => base44.entities.DemoImagePair.filter({ service }),
+    initialData: [],
   });
 
-  // Draw the "after" canvas with all paint regions
-  const drawAfterCanvas = useCallback(() => {
-    const canvas = afterCanvasRef.current;
-    const img = imgRef.current;
-    if (!canvas || !img || !img.complete || !img.naturalWidth) return;
+  const allPairs = [...(dbPairs.length ? dbPairs : []), ...builtInDemoPairs.filter(p => p.service === service)];
 
-    const ctx = canvas.getContext('2d');
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
-
-    // Draw base image
-    ctx.drawImage(img, 0, 0);
-
-    // Draw each painted surface region
-    Object.entries(currentPaint).forEach(([surfaceId, data]) => {
-      if (!data.color || !data.regions?.length) return;
-      const hex = data.color.hex.replace('#', '');
-      const r = parseInt(hex.slice(0, 2), 16);
-      const g = parseInt(hex.slice(2, 4), 16);
-      const b = parseInt(hex.slice(4, 6), 16);
-
-      const sheenOpacity = { flat: 0.55, eggshell: 0.50, satin: 0.45, 'semi-gloss': 0.40 }[data.color.sheen] || 0.50;
-
-      data.regions.forEach(region => {
-        // Soft circular brush stroke
-        const gradient = ctx.createRadialGradient(region.x, region.y, 0, region.x, region.y, region.radius);
-        gradient.addColorStop(0, `rgba(${r},${g},${b},${sheenOpacity})`);
-        gradient.addColorStop(0.7, `rgba(${r},${g},${b},${sheenOpacity * 0.8})`);
-        gradient.addColorStop(1, `rgba(${r},${g},${b},0)`);
-
-        ctx.save();
-        ctx.globalCompositeOperation = 'multiply';
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(region.x, region.y, region.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      });
-    });
-  }, [currentPaint]);
-
-  // Draw base (before) canvas
-  const drawBeforeCanvas = useCallback(() => {
-    const canvas = beforeCanvasRef.current;
-    const img = imgRef.current;
-    if (!canvas || !img || !img.complete || !img.naturalWidth) return;
-    const ctx = canvas.getContext('2d');
-    canvas.width = img.naturalWidth;
-    canvas.height = img.naturalHeight;
-    ctx.drawImage(img, 0, 0);
-  }, []);
-
+  // Pick best pair whenever selections change
   useEffect(() => {
-    if (imgLoaded) {
-      drawBeforeCanvas();
-      drawAfterCanvas();
-    }
-  }, [imgLoaded, drawBeforeCanvas, drawAfterCanvas]);
+    const pair = pickBestPair(allPairs, service, { ...surfaceColors });
+    setActivePair(pair || null);
+    // If we re-pick a new pair, reset rendered state
+    setRendered(false);
+    setAfterOpacity(0);
+  }, [service, JSON.stringify(surfaceColors), dbPairs.length]);
 
-  useEffect(() => {
-    drawAfterCanvas();
-  }, [currentPaint, drawAfterCanvas]);
+  // Render preview animation
+  const handleRender = () => {
+    if (!activePair) return;
+    setRendering(true);
+    setRendered(false);
+    setAfterOpacity(0);
+    setRenderMsgIdx(0);
 
-  // When photo changes, reset loaded state
-  useEffect(() => {
-    setImgLoaded(false);
-    const img = imgRef.current;
-    if (img && img.complete && img.naturalWidth) {
-      setImgLoaded(true);
-    }
-  }, [currentPhotoIndex]);
+    // Cycle through messages
+    let idx = 0;
+    const interval = setInterval(() => {
+      idx += 1;
+      if (idx < ANALYZING_MESSAGES.length) {
+        setRenderMsgIdx(idx);
+      } else {
+        clearInterval(interval);
+      }
+    }, 320);
 
-  const handleCanvasClick = (e) => {
-    if (!activeSurface) return;
-    const canvas = afterCanvasRef.current;
-    if (!canvas) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-    const x = (e.clientX - rect.left) * scaleX;
-    const y = (e.clientY - rect.top) * scaleY;
-    const radius = Math.min(canvas.width, canvas.height) * 0.12;
-
-    // Check if this surface has a color already, if not open color picker first
-    const existing = currentPaint[activeSurface];
-    if (!existing?.color) {
-      // Store click position temporarily and open color picker
-      setPaintData(prev => ({
-        ...prev,
-        [currentPhotoIndex]: {
-          ...prev[currentPhotoIndex],
-          [activeSurface]: {
-            color: null,
-            regions: [{ x, y, radius }]
-          }
-        }
-      }));
-      setShowColorPicker(true);
-      return;
-    }
-
-    // Add paint region
-    setPaintData(prev => {
-      const photoData = prev[currentPhotoIndex] || {};
-      const surfData = photoData[activeSurface] || { color: existing.color, regions: [] };
-      return {
-        ...prev,
-        [currentPhotoIndex]: {
-          ...photoData,
-          [activeSurface]: {
-            ...surfData,
-            regions: [...surfData.regions, { x, y, radius }]
-          }
-        }
-      };
-    });
+    // After 1.3s, fade in the after image
+    setTimeout(() => {
+      clearInterval(interval);
+      setRendering(false);
+      setRendered(true);
+      // Animate opacity from 0 → 1
+      let op = 0;
+      const fadeInterval = setInterval(() => {
+        op += 0.05;
+        setAfterOpacity(Math.min(op, 1));
+        if (op >= 1) clearInterval(fadeInterval);
+      }, 30);
+    }, 1350);
   };
+
+  const resetRender = () => {
+    setRendered(false);
+    setAfterOpacity(0);
+    setSliderPos(50);
+  };
+
+  // Slider drag handlers
+  const handleSliderPointerDown = (e) => {
+    setIsDragging(true);
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const handleSliderPointerMove = (e) => {
+    if (!isDragging || !sliderRef.current) return;
+    const rect = sliderRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    setSliderPos(Math.max(0, Math.min(100, (x / rect.width) * 100)));
+  };
+  const handleSliderPointerUp = () => setIsDragging(false);
 
   const handleColorSelect = (color) => {
-    setShowColorPicker(false);
     if (!activeSurface) return;
-
-    setPaintData(prev => {
-      const photoData = prev[currentPhotoIndex] || {};
-      const existing = photoData[activeSurface] || { regions: [] };
-      return {
-        ...prev,
-        [currentPhotoIndex]: {
-          ...photoData,
-          [activeSurface]: {
-            ...existing,
-            color
-          }
-        }
-      };
-    });
+    setSurfaceColors(prev => ({ ...prev, [activeSurface]: color }));
+    setShowColorPicker(false);
+    setActiveSurface(null);
+    resetRender();
   };
 
-  const clearSurface = (surfaceId) => {
-    setPaintData(prev => {
-      const photoData = { ...(prev[currentPhotoIndex] || {}) };
-      delete photoData[surfaceId];
-      return { ...prev, [currentPhotoIndex]: photoData };
-    });
+  const clearSurface = (id, e) => {
+    e.stopPropagation();
+    setSurfaceColors(prev => { const n = { ...prev }; delete n[id]; return n; });
+    resetRender();
   };
 
-  // Slider drag
-  const handleSliderMouseDown = (e) => {
-    setIsDragging(true);
-    e.preventDefault();
-  };
-  const handleSliderMouseMove = useCallback((e) => {
-    if (!isDragging || !sliderContainerRef.current) return;
-    const rect = sliderContainerRef.current.getBoundingClientRect();
-    const x = (e.clientX ?? e.touches?.[0]?.clientX) - rect.left;
-    setSliderPos(Math.max(0, Math.min(100, (x / rect.width) * 100)));
-  }, [isDragging]);
-  const handleSliderMouseUp = () => setIsDragging(false);
-
-  useEffect(() => {
-    if (isDragging) {
-      window.addEventListener('mousemove', handleSliderMouseMove);
-      window.addEventListener('mouseup', handleSliderMouseUp);
-      window.addEventListener('touchmove', handleSliderMouseMove);
-      window.addEventListener('touchend', handleSliderMouseUp);
-    }
-    return () => {
-      window.removeEventListener('mousemove', handleSliderMouseMove);
-      window.removeEventListener('mouseup', handleSliderMouseUp);
-      window.removeEventListener('touchmove', handleSliderMouseMove);
-      window.removeEventListener('touchend', handleSliderMouseUp);
-    };
-  }, [isDragging, handleSliderMouseMove]);
-
-  const hasPaint = Object.values(currentPaint).some(d => d?.color && d?.regions?.length > 0);
-
-  const surfaceInfo = relevantSurfaces.find(s => s.id === activeSurface);
+  const hasSelections = Object.keys(surfaceColors).length > 0;
+  const currentPhoto = photos[currentPhotoIndex];
+  const beforeUrl = activePair?.before_url || currentPhoto?.url;
+  const afterUrl = activePair?.after_url || currentPhoto?.url;
 
   return (
     <motion.div
@@ -225,259 +146,308 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
       exit={{ opacity: 0, y: -20 }}
       className="w-full max-w-5xl mx-auto"
     >
-      <div className="flex items-center mb-4">
+      {/* Header */}
+      <div className="flex items-center mb-5">
         <Button variant="ghost" size="icon" onClick={onBack} className="mr-2">
           <ArrowLeft className="w-5 h-5" />
         </Button>
         <div className="flex-1">
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Paint Visualizer</h2>
           <p className="text-slate-500 text-sm mt-0.5">
-            1. Pick a surface below → 2. Click it in your photo to paint → 3. Compare before & after
+            Select surfaces, pick colors, then click <strong>Render Preview</strong>
           </p>
         </div>
       </div>
 
-      {/* Surface Selector */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        {relevantSurfaces.map(surface => {
-          const data = currentPaint[surface.id];
-          const isActive = activeSurface === surface.id;
-          return (
-            <button
-              key={surface.id}
-              onClick={() => setActiveSurface(isActive ? null : surface.id)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-xl border-2 text-sm font-medium transition-all ${
-                isActive
-                  ? 'border-transparent text-white scale-105 shadow-lg'
-                  : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
-              }`}
-              style={isActive ? { backgroundColor: surface.color, borderColor: surface.color } : {}}
-            >
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {/* Left: Image viewer */}
+        <div className="lg:col-span-2 space-y-3">
+
+          {/* Main image area */}
+          <div className="relative rounded-2xl overflow-hidden bg-slate-900 aspect-video">
+            {!rendered ? (
+              /* Before / current state */
+              <img
+                src={beforeUrl}
+                alt="Before"
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              /* Before/After slider */
               <div
-                className="w-4 h-4 rounded-full border-2 border-white/50 flex-shrink-0"
-                style={{ backgroundColor: data?.color?.hex || surface.color }}
-              />
-              {surface.name}
-              {data?.color && (
-                <span className="text-xs opacity-70">({data.regions?.length || 0} strokes)</span>
-              )}
-              {data?.color && !isActive && (
-                <button
-                  onClick={(e) => { e.stopPropagation(); clearSurface(surface.id); }}
-                  className="w-4 h-4 rounded-full bg-slate-300 hover:bg-red-400 flex items-center justify-center text-white ml-1"
+                ref={sliderRef}
+                className="relative w-full h-full select-none"
+                style={{ cursor: isDragging ? 'ew-resize' : 'col-resize' }}
+                onPointerDown={handleSliderPointerDown}
+                onPointerMove={handleSliderPointerMove}
+                onPointerUp={handleSliderPointerUp}
+              >
+                {/* Before (full) */}
+                <img
+                  src={beforeUrl}
+                  alt="Before"
+                  className="absolute inset-0 w-full h-full object-cover"
+                  draggable={false}
+                />
+                {/* After (clipped left portion) */}
+                <div
+                  className="absolute inset-0 overflow-hidden"
+                  style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
                 >
-                  ×
-                </button>
+                  <img
+                    src={afterUrl}
+                    alt="After"
+                    className="w-full h-full object-cover"
+                    draggable={false}
+                    style={{ opacity: afterOpacity, transition: afterOpacity < 1 ? 'none' : undefined }}
+                  />
+                </div>
+                {/* Slider handle */}
+                <div
+                  className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl pointer-events-none"
+                  style={{ left: `${sliderPos}%`, transform: 'translateX(-50%)' }}
+                >
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-2xl flex items-center justify-center border border-slate-200">
+                    <div className="flex gap-0.5">
+                      <div className="w-0 h-0 border-t-[5px] border-b-[5px] border-r-[6px] border-transparent border-r-slate-400" />
+                      <div className="w-0 h-0 border-t-[5px] border-b-[5px] border-l-[6px] border-transparent border-l-slate-400" />
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute top-3 left-3 px-2.5 py-1 bg-black/70 text-white text-xs font-semibold rounded-lg pointer-events-none">Before</div>
+                <div className="absolute top-3 right-3 px-2.5 py-1 bg-white text-slate-900 text-xs font-semibold rounded-lg pointer-events-none">After</div>
+              </div>
+            )}
+
+            {/* Rendering overlay */}
+            <AnimatePresence>
+              {rendering && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 bg-black/70 flex flex-col items-center justify-center gap-4 z-20"
+                >
+                  <div className="relative">
+                    <div className="w-14 h-14 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+                    <Sparkles className="absolute inset-0 m-auto w-5 h-5 text-white" />
+                  </div>
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={renderMsgIdx}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      className="text-white font-semibold text-base"
+                    >
+                      {ANALYZING_MESSAGES[renderMsgIdx]}
+                    </motion.p>
+                  </AnimatePresence>
+                  <div className="flex gap-1.5">
+                    {ANALYZING_MESSAGES.map((_, i) => (
+                      <div key={i} className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${i <= renderMsgIdx ? 'bg-white' : 'bg-white/30'}`} />
+                    ))}
+                  </div>
+                </motion.div>
               )}
-            </button>
-          );
-        })}
-      </div>
+            </AnimatePresence>
 
-      {/* Active surface hint */}
-      <AnimatePresence>
-        {activeSurface && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            className="flex items-center gap-2 mb-3 px-4 py-2.5 rounded-xl text-sm font-medium text-white"
-            style={{ backgroundColor: surfaceInfo?.color }}
-          >
-            <Paintbrush className="w-4 h-4" />
-            {currentPaint[activeSurface]?.color
-              ? `Painting: ${surfaceInfo?.name} — click anywhere on the photo to apply paint strokes`
-              : `Click on the photo where the ${surfaceInfo?.name.toLowerCase()} are — you'll pick a color first`}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Main Viewer: toggle between paint mode and before/after */}
-      <div className="relative rounded-2xl overflow-hidden bg-slate-900 mb-4" style={{ minHeight: 200 }}>
-        {/* Hidden image for canvas source */}
-        <img
-          ref={imgRef}
-          src={currentPhoto.url}
-          crossOrigin="anonymous"
-          onLoad={() => setImgLoaded(true)}
-          className="hidden"
-          alt=""
-        />
-
-        {!showSlider ? (
-          /* Paint Mode: show the after canvas */
-          <div className="relative">
-            <canvas
-              ref={afterCanvasRef}
-              onClick={handleCanvasClick}
-              className="w-full block"
-              style={{ cursor: activeSurface ? 'crosshair' : 'default', maxHeight: '60vh', objectFit: 'contain' }}
-            />
-            {!imgLoaded && (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              </div>
-            )}
-            {/* No surface selected overlay */}
-            {!activeSurface && imgLoaded && !hasPaint && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="bg-black/60 rounded-2xl px-6 py-4 text-center text-white">
-                  <Paintbrush className="w-8 h-8 mx-auto mb-2 opacity-70" />
-                  <p className="font-semibold">Select a surface above</p>
-                  <p className="text-sm text-white/70 mt-1">Then click on the photo to apply paint</p>
-                </div>
-              </div>
+            {/* Photo nav */}
+            {photos.length > 1 && (
+              <>
+                <button onClick={() => { setCurrentPhotoIndex(p => Math.max(p - 1, 0)); resetRender(); }}
+                  disabled={currentPhotoIndex === 0}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-lg disabled:opacity-30 z-10">
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button onClick={() => { setCurrentPhotoIndex(p => Math.min(p + 1, photos.length - 1)); resetRender(); }}
+                  disabled={currentPhotoIndex === photos.length - 1}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-lg disabled:opacity-30 z-10">
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </>
             )}
           </div>
-        ) : (
-          /* Before / After Slider Mode */
-          <div
-            ref={sliderContainerRef}
-            className="relative overflow-hidden select-none"
-            onMouseDown={handleSliderMouseDown}
-            onTouchStart={handleSliderMouseDown}
-            style={{ cursor: 'ew-resize' }}
+
+          {/* AI disclaimer */}
+          {rendered && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center text-xs text-slate-400 italic"
+            >
+              Preview generated using AI surface detection. Final result may vary based on lighting and finish.
+            </motion.p>
+          )}
+
+          {/* Render button */}
+          <Button
+            onClick={rendered ? resetRender : handleRender}
+            disabled={rendering || !hasSelections}
+            className={`w-full h-13 text-base font-semibold rounded-xl transition-all ${
+              rendered
+                ? 'bg-slate-700 hover:bg-slate-800'
+                : 'bg-gradient-to-r from-[#1e3a5f] to-[#2a5298] hover:opacity-95'
+            } text-white disabled:opacity-50`}
           >
-            {/* Before (original) */}
-            <canvas
-              ref={beforeCanvasRef}
-              className="w-full block"
-              style={{ maxHeight: '60vh' }}
-            />
-            {/* After (painted) - clipped */}
-            <div
-              className="absolute inset-0 overflow-hidden pointer-events-none"
-              style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
-            >
-              <canvas
-                ref={afterCanvasRef}
-                className="w-full block"
-                style={{ maxHeight: '60vh' }}
-              />
-            </div>
-            {/* Slider line */}
-            <div
-              className="absolute top-0 bottom-0 w-0.5 bg-white shadow-xl pointer-events-none"
-              style={{ left: `${sliderPos}%` }}
-            >
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center">
-                <div className="flex gap-0.5">
-                  <div className="w-0 h-0 border-t-[5px] border-b-[5px] border-r-[6px] border-transparent border-r-slate-500" />
-                  <div className="w-0 h-0 border-t-[5px] border-b-[5px] border-l-[6px] border-transparent border-l-slate-500" />
-                </div>
+            {rendering ? (
+              <span className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                Rendering…
+              </span>
+            ) : rendered ? (
+              <span className="flex items-center gap-2">
+                <RotateCcw className="w-4 h-4" /> Reset &amp; Re-paint
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4" /> Render Preview
+              </span>
+            )}
+          </Button>
+
+          {/* Scenario selector if multiple pairs */}
+          {allPairs.length > 1 && (
+            <div>
+              <p className="text-xs text-slate-500 mb-2 font-medium">Demo Scenarios</p>
+              <div className="flex gap-2 flex-wrap">
+                {allPairs.map((pair, i) => (
+                  <button
+                    key={pair.id || i}
+                    onClick={() => { setActivePair(pair); resetRender(); }}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-all ${
+                      activePair?.id === pair.id || activePair?.scenario_name === pair.scenario_name
+                        ? 'border-[#1e3a5f] bg-[#1e3a5f]/10 text-[#1e3a5f]'
+                        : 'border-slate-200 text-slate-600 hover:border-slate-300'
+                    }`}
+                  >
+                    {pair.scenario_name || `Scenario ${i + 1}`}
+                  </button>
+                ))}
               </div>
             </div>
-            <div className="absolute top-4 left-4 px-3 py-1 bg-black/70 text-white text-sm font-semibold rounded-lg pointer-events-none">Before</div>
-            <div className="absolute top-4 right-4 px-3 py-1 bg-white text-slate-900 text-sm font-semibold rounded-lg pointer-events-none">After</div>
+          )}
+
+          {/* Photo strip */}
+          {photos.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto pb-1">
+              {photos.map((photo, idx) => (
+                <button key={idx} onClick={() => { setCurrentPhotoIndex(idx); resetRender(); }}
+                  className={`flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden border-2 transition-all ${
+                    idx === currentPhotoIndex ? 'border-[#1e3a5f] ring-2 ring-[#1e3a5f]/20' : 'border-slate-200'
+                  }`}>
+                  <img src={photo.url} alt="" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Right: Surface + color panel */}
+        <div className="space-y-3">
+          <div className="bg-white rounded-2xl border border-slate-200 p-4">
+            <h3 className="font-semibold text-slate-900 mb-3 flex items-center gap-2 text-sm">
+              <Paintbrush className="w-4 h-4 text-[#1e3a5f]" />
+              Select Surfaces &amp; Colors
+            </h3>
+            <div className="space-y-2">
+              {relevantSurfaces.map(surface => {
+                const sel = surfaceColors[surface.id];
+                const isActive = activeSurface === surface.id;
+                return (
+                  <button
+                    key={surface.id}
+                    onClick={() => {
+                      setActiveSurface(surface.id);
+                      setShowColorPicker(true);
+                      resetRender();
+                    }}
+                    className={`w-full flex items-center gap-3 p-3 rounded-xl border-2 text-left transition-all ${
+                      isActive
+                        ? 'border-[#1e3a5f] bg-[#1e3a5f]/5'
+                        : sel
+                        ? 'border-slate-200 bg-slate-50'
+                        : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div
+                      className="w-8 h-8 rounded-lg flex-shrink-0 border border-black/10"
+                      style={{ backgroundColor: sel?.hex || surface.color + '33' }}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-900">{surface.name}</p>
+                      {sel ? (
+                        <p className="text-xs text-slate-500 truncate">{sel.name} · {sel.sheen}</p>
+                      ) : (
+                        <p className="text-xs text-slate-400">Tap to choose color</p>
+                      )}
+                    </div>
+                    {sel && (
+                      <button
+                        onClick={(e) => clearSurface(surface.id, e)}
+                        className="w-5 h-5 rounded-full bg-slate-200 hover:bg-red-400 hover:text-white flex items-center justify-center text-slate-500 text-xs flex-shrink-0"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        )}
 
-        {/* Photo navigation */}
-        {photos.length > 1 && (
-          <>
-            <button onClick={() => setCurrentPhotoIndex(p => Math.max(p - 1, 0))} disabled={currentPhotoIndex === 0}
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-lg disabled:opacity-30 z-10">
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button onClick={() => setCurrentPhotoIndex(p => Math.min(p + 1, photos.length - 1))} disabled={currentPhotoIndex === photos.length - 1}
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center shadow-lg disabled:opacity-30 z-10">
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </>
-        )}
-      </div>
+          {/* Selected colors summary */}
+          {hasSelections && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-2xl border border-slate-200 p-4"
+            >
+              <h3 className="font-semibold text-slate-900 mb-3 text-sm flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                Color Summary
+              </h3>
+              <div className="space-y-2">
+                {Object.entries(surfaceColors).map(([id, color]) => {
+                  const surf = ALL_SURFACES.find(s => s.id === id);
+                  return (
+                    <div key={id} className="flex items-center gap-2 text-sm">
+                      <div className="w-5 h-5 rounded-md border border-black/10 flex-shrink-0"
+                        style={{ backgroundColor: color.hex }} />
+                      <span className="text-slate-600 flex-shrink-0">{surf?.name}:</span>
+                      <span className="text-slate-900 font-medium truncate">{color.name}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              {rendered && (
+                <div className="mt-3 pt-3 border-t border-slate-100">
+                  <p className="text-xs text-slate-400 italic">
+                    Colors shown for reference. Pre-rendered visualization active.
+                  </p>
+                </div>
+              )}
+            </motion.div>
+          )}
 
-      {/* Controls row */}
-      <div className="flex items-center gap-3 mb-4 flex-wrap">
-        {/* Toggle paint / compare */}
-        <div className="flex bg-slate-100 rounded-xl p-1 gap-1">
-          <button
-            onClick={() => setShowSlider(false)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              !showSlider ? 'bg-white shadow text-slate-900' : 'text-slate-500 hover:text-slate-700'
-            }`}
+          {/* Continue button */}
+          <Button
+            onClick={() => onComplete({ surfaceColors, activePair })}
+            className="w-full h-12 font-semibold bg-[#1e3a5f] hover:bg-[#2a4d7a] rounded-xl"
           >
-            <Paintbrush className="w-4 h-4 inline mr-1.5" />Paint
-          </button>
-          <button
-            onClick={() => setShowSlider(true)}
-            disabled={!hasPaint}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-40 ${
-              showSlider ? 'bg-white shadow text-slate-900' : 'text-slate-500 hover:text-slate-700'
-            }`}
-          >
-            Before / After
-          </button>
-        </div>
-
-        {/* Undo last stroke */}
-        {activeSurface && currentPaint[activeSurface]?.regions?.length > 0 && (
-          <Button variant="outline" size="sm" className="gap-2"
-            onClick={() => {
-              setPaintData(prev => {
-                const photoData = prev[currentPhotoIndex] || {};
-                const surfData = photoData[activeSurface] || {};
-                const regions = [...(surfData.regions || [])];
-                regions.pop();
-                return {
-                  ...prev,
-                  [currentPhotoIndex]: {
-                    ...photoData,
-                    [activeSurface]: { ...surfData, regions }
-                  }
-                };
-              });
-            }}
-          >
-            <RotateCcw className="w-4 h-4" />
-            Undo stroke
+            Continue to Quote
+            <ArrowRight className="ml-2 w-4 h-4" />
           </Button>
-        )}
-
-        {/* Change color for active surface */}
-        {activeSurface && currentPaint[activeSurface]?.color && (
-          <Button variant="outline" size="sm" className="gap-2"
-            onClick={() => setShowColorPicker(true)}
-          >
-            <div className="w-4 h-4 rounded-full border border-slate-300"
-              style={{ backgroundColor: currentPaint[activeSurface].color.hex }} />
-            Change color
-          </Button>
-        )}
-
-        <div className="flex-1" />
-        <span className="text-xs text-slate-400">{currentPhotoIndex + 1}/{photos.length}</span>
-      </div>
-
-      {/* Photo strip */}
-      {photos.length > 1 && (
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-          {photos.map((photo, idx) => (
-            <button key={idx} onClick={() => setCurrentPhotoIndex(idx)}
-              className={`flex-shrink-0 w-14 h-14 rounded-xl overflow-hidden border-2 transition-all ${
-                idx === currentPhotoIndex ? 'border-[#1e3a5f] ring-2 ring-[#1e3a5f]/20' : 'border-slate-200'
-              }`}>
-              <img src={photo.url} alt="" className="w-full h-full object-cover" />
-            </button>
-          ))}
         </div>
-      )}
-
-      <Button
-        onClick={() => onComplete(paintData)}
-        className="w-full h-14 text-lg font-semibold bg-[#1e3a5f] hover:bg-[#2a4d7a] rounded-xl"
-      >
-        Continue to Quote
-        <ArrowRight className="ml-2 w-5 h-5" />
-      </Button>
+      </div>
 
       {/* Color Picker */}
       <AnimatePresence>
         {showColorPicker && (
           <ColorPicker
             onSelect={handleColorSelect}
-            onClose={() => setShowColorPicker(false)}
-            selectedColor={activeSurface ? currentPaint[activeSurface]?.color : null}
+            onClose={() => { setShowColorPicker(false); setActiveSurface(null); }}
+            selectedColor={activeSurface ? surfaceColors[activeSurface] : null}
           />
         )}
       </AnimatePresence>
