@@ -1,0 +1,104 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Home, Building, Grid3X3, DoorOpen, Fence, ArrowLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+const services = [
+  {
+    id: 'interior',
+    name: 'Interior Painting',
+    description: 'Transform your living spaces with expert interior painting',
+    icon: Home,
+    image: 'https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'exterior',
+    name: 'Exterior Painting',
+    description: 'Boost curb appeal with durable exterior finishes',
+    icon: Building,
+    image: 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'cabinet',
+    name: 'Cabinet Painting',
+    description: 'Refresh your kitchen with professionally painted cabinets',
+    icon: Grid3X3,
+    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'trim',
+    name: 'Trim & Doors',
+    description: 'Detail work that makes a difference',
+    icon: DoorOpen,
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop'
+  },
+  {
+    id: 'deck',
+    name: 'Deck & Fence Staining',
+    description: 'Protect and beautify your outdoor wood surfaces',
+    icon: Fence,
+    image: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?w=400&h=300&fit=crop'
+  }
+];
+
+export default function ServiceSelection({ onSelect, onBack }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      className="w-full max-w-4xl mx-auto"
+    >
+      <div className="flex items-center mb-6">
+        <Button variant="ghost" size="icon" onClick={onBack} className="mr-2">
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">
+            Select Your Service
+          </h2>
+          <p className="text-slate-600 mt-1">
+            What type of painting project do you have in mind?
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {services.map((service, idx) => (
+          <motion.div
+            key={service.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.1 }}
+            onClick={() => onSelect(service.id)}
+            className="group cursor-pointer"
+          >
+            <div className="relative bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-[#1e3a5f] transition-all duration-300 hover:shadow-xl">
+              <div className="h-36 overflow-hidden">
+                <img
+                  src={service.image}
+                  alt={service.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              </div>
+              <div className="absolute top-3 right-3">
+                <div className="w-10 h-10 bg-white/90 backdrop-blur rounded-xl flex items-center justify-center shadow-lg">
+                  <service.icon className="w-5 h-5 text-[#1e3a5f]" />
+                </div>
+              </div>
+              <div className="p-4">
+                <h3 className="font-bold text-lg text-slate-900 group-hover:text-[#1e3a5f] transition-colors">
+                  {service.name}
+                </h3>
+                <p className="text-sm text-slate-500 mt-1">
+                  {service.description}
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
