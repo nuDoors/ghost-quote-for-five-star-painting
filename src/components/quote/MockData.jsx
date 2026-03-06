@@ -134,6 +134,10 @@ export const pricingConstants = {
   deck: {
     basePrice: 600,
     perSquareFoot: 3.5
+  },
+  garage: {
+    basePrice: 400,
+    perSquareFoot: 4.5
   }
 };
 

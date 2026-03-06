@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Home, Building, Grid3X3, DoorOpen, Fence, ArrowLeft } from 'lucide-react';
+import { Home, Building, Grid3X3, DoorOpen, Fence, Car, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const services = [
