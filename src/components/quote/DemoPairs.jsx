@@ -7,7 +7,7 @@ export const builtInDemoPairs = [
     service: 'exterior',
     scenario_name: 'Classic Navy & White',
     before_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/f8a36c7ef_ChatGPTImageMar5202608_15_17PM.png',
-    after_url: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop',
+    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/3bd1f648d_ChatGPTImageMar5202608_24_52PM.png',
     color_tags: ['navy', 'white', 'blue'],
     is_default: true
   },
@@ -16,7 +16,7 @@ export const builtInDemoPairs = [
     service: 'exterior',
     scenario_name: 'Warm Gray & Cream',
     before_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/f8a36c7ef_ChatGPTImageMar5202608_15_17PM.png',
-    after_url: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1200&h=800&fit=crop',
+    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/3bd1f648d_ChatGPTImageMar5202608_24_52PM.png',
     color_tags: ['gray', 'cream', 'beige'],
     is_default: false
   },
