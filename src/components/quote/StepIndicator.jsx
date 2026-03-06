@@ -48,7 +48,7 @@ export default function StepIndicator({ currentStep }) {
                   initial={{ width: 0 }}
                   animate={{ width: currentStep > step.id ? '100%' : '0%' }}
                   transition={{ duration: 0.3 }}
-                  className="h-full bg-emerald-500"
+                  className="h-full bg-[#c8540a]"
                 />
               </div>
             )}
