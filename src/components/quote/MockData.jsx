@@ -80,6 +80,20 @@ export const paintColors = {
   ]
 };
 
+// Garage floor coating flake colors
+export const garageFlakeColors = [
+  { code: "GF-01", name: "Orbit Flake", hex: "#5a6a8a", description: "Blue, white & black blend" },
+  { code: "GF-02", name: "Creekbed Flake", hex: "#b0a898", description: "Neutral tan & gray blend" },
+  { code: "GF-03", name: "Domino Flake", hex: "#4a4a4a", description: "Black & white high-contrast" },
+  { code: "GF-04", name: "Gravel Flake", hex: "#8a8a8a", description: "Classic gray granite look" },
+  { code: "GF-05", name: "Nightfall Flake", hex: "#3a3a4a", description: "Dark charcoal & black" },
+  { code: "GF-06", name: "Cabin Fever Flake", hex: "#c8c0b8", description: "Light gray & white mix" },
+  { code: "GF-07", name: "Outback Flake", hex: "#a07850", description: "Warm tan & brown earth tones" },
+  { code: "GF-08", name: "Shoreline Flake", hex: "#c8bca8", description: "Sandy beige & cream blend" },
+  { code: "GF-09", name: "Tidal Wave Flake", hex: "#7898b8", description: "Cool blue-gray coastal blend" },
+  { code: "GF-10", name: "Wombat Flake", hex: "#909090", description: "Mid-tone gray blend" },
+];
+
 // Stain colors for deck/fence
 export const stainColors = [
   { code: "STN-01", name: "Natural", hex: "#C8922A", description: "Enhances natural wood grain" },
