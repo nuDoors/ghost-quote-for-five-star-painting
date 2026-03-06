@@ -73,13 +73,15 @@ export default function BookingForm({ zip, quote, onComplete, onBack }) {
           className="bg-gradient-to-br from-[#1e3a5f]/10 to-[#c8540a]/5 border-2 border-[#1e3a5f]/30 rounded-2xl p-6 mb-6 shadow-lg"
         >
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-            {/* Profile Image */}
+            {/* Profile Video */}
             <div className="flex-shrink-0">
-              <div className="w-24 h-24 bg-gradient-to-br from-[#1e3a5f] to-[#2a4d7a] rounded-full flex items-center justify-center ring-4 ring-white shadow-md">
-                <span className="text-white text-2xl font-bold">
-                  {territoryOwner.name.split(' ').map(n => n[0]).join('')}
-                </span>
-              </div>
+              <video
+                autoPlay
+                loop
+                muted
+                className="w-24 h-24 rounded-full ring-4 ring-white shadow-md object-cover"
+                src="https://videos.pexels.com/video-files/8959325/8959325-hd_1280_720_25fps.mp4"
+              />
             </div>
 
             {/* Info Section */}
