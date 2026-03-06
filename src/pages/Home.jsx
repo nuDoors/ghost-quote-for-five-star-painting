@@ -254,13 +254,11 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white/10 rounded flex items-center justify-center">
-                <span className="text-[#c8540a] text-xl font-black">★</span>
-              </div>
-              <div>
-                <div className="font-black text-base uppercase tracking-tight">Five Star Painting</div>
-                <div className="text-white/50 text-xs">A Neighborly Company</div>
-              </div>
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/35e9a74f8_NeighborlyXGhostQuoteaiPitchDeck.jpg"
+                alt="Five Star Painting"
+                className="h-10 w-auto"
+              />
             </div>
             <div className="text-center text-white/60 text-sm">
               <p>© {new Date().getFullYear()} Five Star Painting. All rights reserved.</p>
