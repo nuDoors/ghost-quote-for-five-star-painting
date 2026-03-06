@@ -215,6 +215,13 @@ export const calculateEstimate = (service, details) => {
       high = Math.round(base * 1.15);
       break;
     }
+    case "garage": {
+      const sqft = details.squareFeet || 400;
+      const base = pricing.basePrice + (sqft * pricing.perSquareFoot);
+      low = Math.round(base * 0.85);
+      high = Math.round(base * 1.15);
+      break;
+    }
   }
 
   return { low, high };
