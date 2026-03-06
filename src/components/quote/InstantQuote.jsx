@@ -9,7 +9,8 @@ const serviceLabels = {
   exterior: 'Exterior Painting',
   cabinet: 'Cabinet Painting',
   trim: 'Trim & Doors',
-  deck: 'Deck & Fence Staining'
+  deck: 'Deck & Fence Staining',
+  garage: 'Garage Floor Coating'
 };
 
 const getLineItems = (service, details) => {
@@ -45,6 +46,12 @@ const getLineItems = (service, details) => {
       items.push({ label: `${details.squareFeet || 300} Square Feet`, included: true });
       items.push({ label: 'Surface Preparation', included: true });
       items.push({ label: 'Stain Application (2 Coats)', included: true });
+      break;
+    case 'garage':
+      items.push({ label: `${details.squareFeet || 400} Square Feet`, included: true });
+      items.push({ label: `${details.coatingType === 'polyurea' ? 'Polyurea' : 'Epoxy'} Coating`, included: true });
+      items.push({ label: 'Crack Filling & Surface Prep', included: true });
+      items.push({ label: 'Anti-Slip Broadcast (Optional)', included: true });
       break;
   }
   
