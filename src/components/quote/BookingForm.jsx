@@ -80,7 +80,7 @@ export default function BookingForm({ zip, quote, onComplete, onBack }) {
                 loop
                 muted
                 className="w-24 h-24 rounded-full ring-4 ring-white shadow-md object-cover"
-                src="https://videos.pexels.com/video-files/8959325/8959325-hd_1280_720_25fps.mp4"
+                src="https://media.istockphoto.com/id/1408622103/video/man-contractor-portrait-video.mp4?s=mp4-640x640-is&sd=10"
               />
             </div>
 
