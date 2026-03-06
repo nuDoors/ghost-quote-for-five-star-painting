@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Home } from 'lucide-react';
 import { createPageUrl } from '@/utils';
 
-export default function Layout({ children }) {
+export default function Layout({ children, onHomeClick }) {
   return (
     <div className="min-h-screen">
       <style>{`
@@ -29,7 +29,7 @@ export default function Layout({ children }) {
       
       {/* Home Button */}
       <button
-        onClick={() => window.location.reload()}
+        onClick={onHomeClick}
         className="fixed top-4 left-4 z-50 p-3 bg-white rounded-full shadow-lg hover:shadow-xl hover:bg-slate-50 transition-all"
         title="Back to Home"
       >
