@@ -448,6 +448,7 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
             onSelect={handleColorSelect}
             onClose={() => { setShowColorPicker(false); setActiveSurface(null); }}
             selectedColor={activeSurface ? surfaceColors[activeSurface] : null}
+            surfaceId={activeSurface}
           />
         )}
       </AnimatePresence>
