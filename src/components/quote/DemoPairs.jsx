@@ -43,7 +43,7 @@ export const builtInDemoPairs = [
     service: 'cabinet',
     scenario_name: 'Crisp White Cabinets',
     before_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/5dff4fb74_ChatGPTImageMar5202607_59_18PM.png',
-    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/54ab2c111_KitchenCabinetsAfter.png',
+    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/f6729d743_ChatGPTImageMar5202608_03_26PM.png',
     color_tags: ['white', 'bright', 'clean'],
     is_default: true
   },
@@ -52,7 +52,7 @@ export const builtInDemoPairs = [
     service: 'cabinet',
     scenario_name: 'Deep Navy Cabinets',
     before_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/5dff4fb74_ChatGPTImageMar5202607_59_18PM.png',
-    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/54ab2c111_KitchenCabinetsAfter.png',
+    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/f6729d743_ChatGPTImageMar5202608_03_26PM.png',
     color_tags: ['navy', 'dark', 'bold'],
     is_default: false
   },
