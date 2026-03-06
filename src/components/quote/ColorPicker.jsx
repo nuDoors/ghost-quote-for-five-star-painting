@@ -233,26 +233,28 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
               </div>
             </div>
 
-            {!isGarage && <div className="mb-4">
-              <p className="text-sm font-medium text-slate-700 mb-2">{isStain ? 'Finish' : 'Sheen'}</p>
-              <div className="flex gap-2">
-                {(isStain ? stainFinishOptions : sheenOptions).map(sheen => (
-                  <button
-                    key={sheen.id}
-                    onClick={() => setSelectedSheen(sheen.id)}
-                    className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
-                      selectedSheen === sheen.id
-                        ? 'bg-[#1e3a5f] text-white'
-                        : 'bg-white border border-slate-200 text-slate-700 hover:border-slate-300'
-                    }`}
-                  >
-                    {sheen.name}
-                  </button>
-                ))}
+            {!isGarage && (
+              <div className="mb-4">
+                <p className="text-sm font-medium text-slate-700 mb-2">{isStain ? 'Finish' : 'Sheen'}</p>
+                <div className="flex gap-2">
+                  {(isStain ? stainFinishOptions : sheenOptions).map(sheen => (
+                    <button
+                      key={sheen.id}
+                      onClick={() => setSelectedSheen(sheen.id)}
+                      className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all ${
+                        selectedSheen === sheen.id
+                          ? 'bg-[#1e3a5f] text-white'
+                          : 'bg-white border border-slate-200 text-slate-700 hover:border-slate-300'
+                      }`}
+                    >
+                      {sheen.name}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>}
+            )}
 
-            {!isGarage && <Button
+            <Button
               onClick={handleConfirm}
               className="w-full h-12 bg-[#1e3a5f] hover:bg-[#2a4d7a] rounded-xl font-semibold"
             >
