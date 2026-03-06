@@ -208,9 +208,11 @@ export default function Home() {
             {/* Right side */}
             <div className="flex items-center gap-4">
               {currentStep < 8 && (
-                <span className="hidden md:inline-block text-xs font-semibold text-[#c8540a] bg-orange-50 border border-orange-200 px-3 py-1 rounded-full">
-                  Ghost Quote™
-                </span>
+                <img
+                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/62e5a35c8_NeighborlyXGhostQuoteaiPitchDeck1.jpg"
+                  alt="GhostQuote.ai"
+                  className="hidden md:block h-10 w-auto"
+                />
               )}
               <a href="tel:8882613633" className="hidden sm:flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#14304f] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
