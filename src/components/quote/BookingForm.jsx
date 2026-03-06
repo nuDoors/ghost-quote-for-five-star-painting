@@ -11,6 +11,14 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { format, addDays, isBefore, startOfDay } from 'date-fns';
 import { getTerritoryOwner, mockAvailability } from './MockData';
 
+const reviews = [
+  { text: "Michael was great, very professional and courteous.", author: "Sarah M." },
+  { text: "Excellent work, exceeded our expectations!", author: "John D." },
+  { text: "Highly recommend, fantastic service from start to finish.", author: "Linda K." },
+  { text: "Professional team, attention to detail is outstanding.", author: "Robert T." },
+  { text: "Best painters we've worked with, very reliable.", author: "Emma C." }
+];
+
 export default function BookingForm({ zip, quote, onComplete, onBack }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -23,6 +31,7 @@ export default function BookingForm({ zip, quote, onComplete, onBack }) {
     bookedTime: ''
   });
   const [step, setStep] = useState(1);
+  const [reviewIndex, setReviewIndex] = useState(0);
 
   const territoryOwner = getTerritoryOwner(zip);
   const availableSlots = formData.bookedDate ? mockAvailability.getSlots(formData.bookedDate) : [];
