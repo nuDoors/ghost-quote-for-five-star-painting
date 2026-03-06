@@ -240,7 +240,7 @@ export default function Home() {
             <div className="border-t border-slate-200 py-4 text-center">
               <div className="flex items-center justify-center gap-0 text-sm text-slate-600">
                 <div className="flex-1 border-t border-slate-300"></div>
-                <span className="px-1">Powered by</span>
+                <span className="px-0">Powered by</span>
                 <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/565c7bc7e_NeighborlyXGhostQuoteaiPitchDeck2.svg"
                 alt="GhostQuote.ai" className="h-24 w-auto" />
                 <div className="flex-1 border-t border-slate-300"></div>
