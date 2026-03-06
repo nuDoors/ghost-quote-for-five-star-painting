@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Clock, MapPin, User, Mail, Phone, MessageSquare, Check, Star } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, User, Mail, Phone, MessageSquare, Check, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
