@@ -60,7 +60,7 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
         className="bg-white w-full max-w-lg rounded-t-3xl md:rounded-2xl max-h-[85vh] overflow-hidden flex flex-col"
       >
         <div className="flex items-center justify-between p-4 border-b">
-          <h3 className="text-lg font-bold text-slate-900">{isStain ? 'Select Stain Color' : 'Select Color'}</h3>
+          <h3 className="text-lg font-bold text-slate-900">{isGarage ? 'Select Flake Color' : isStain ? 'Select Stain Color' : 'Select Color'}</h3>
           <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full">
             <X className="w-5 h-5" />
           </button>
