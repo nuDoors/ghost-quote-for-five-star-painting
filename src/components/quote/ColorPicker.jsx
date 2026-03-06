@@ -72,77 +72,108 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
           </div>
         </div>
 
-        <Tabs value={brand} onValueChange={setBrand} className="flex-1 flex flex-col min-h-0">
-          <TabsList className="w-full justify-start px-4 pt-2 bg-transparent gap-2">
-            {Object.keys(paintColors).map(b => (
-              <TabsTrigger
-                key={b}
-                value={b}
-                className="data-[state=active]:bg-[#1e3a5f] data-[state=active]:text-white rounded-lg px-3 py-1.5 text-sm"
-              >
-                {b}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-
-          {Object.keys(paintColors).map(b => (
-            <TabsContent key={b} value={b} className="flex-1 overflow-auto p-4 mt-0">
-              {favorites.length > 0 && (
-                <div className="mb-4">
-                  <h4 className="text-sm font-medium text-slate-600 mb-2 flex items-center gap-2">
-                    <Heart className="w-4 h-4 text-red-500 fill-red-500" /> Favorites
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {favorites.map(color => (
-                      <button
-                        key={color.code}
-                        onClick={() => setTempColor(color)}
-                        className={`w-10 h-10 rounded-lg border-2 ${
-                          tempColor?.code === color.code ? 'border-[#1e3a5f] ring-2 ring-[#1e3a5f]/20' : 'border-slate-200'
-                        }`}
-                        style={{ backgroundColor: color.hex }}
-                      />
-                    ))}
+        {isStain ? (
+          <div className="flex-1 overflow-auto p-4">
+            <p className="text-xs text-slate-500 mb-4">Wood stain colors — select a tone that complements your deck or fence.</p>
+            <div className="space-y-3">
+              {filteredColors.map(color => (
+                <button
+                  key={color.code}
+                  onClick={() => setTempColor(color)}
+                  className={`w-full flex items-center gap-4 p-3 rounded-xl border-2 transition-all text-left ${
+                    tempColor?.code === color.code
+                      ? 'border-[#1e3a5f] bg-[#1e3a5f]/5 ring-1 ring-[#1e3a5f]/20'
+                      : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
+                >
+                  <div
+                    className="w-14 h-10 rounded-lg flex-shrink-0 border border-black/10"
+                    style={{ background: `linear-gradient(135deg, ${color.hex}dd, ${color.hex})` }}
+                  />
+                  <div className="flex-1">
+                    <p className="font-semibold text-slate-900">{color.name}</p>
+                    <p className="text-xs text-slate-500">{color.description}</p>
                   </div>
-                </div>
-              )}
+                  {tempColor?.code === color.code && (
+                    <Check className="w-5 h-5 text-[#1e3a5f] flex-shrink-0" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <Tabs value={brand} onValueChange={setBrand} className="flex-1 flex flex-col min-h-0">
+            <TabsList className="w-full justify-start px-4 pt-2 bg-transparent gap-2">
+              {Object.keys(paintColors).map(b => (
+                <TabsTrigger
+                  key={b}
+                  value={b}
+                  className="data-[state=active]:bg-[#1e3a5f] data-[state=active]:text-white rounded-lg px-3 py-1.5 text-sm"
+                >
+                  {b}
+                </TabsTrigger>
+              ))}
+            </TabsList>
 
-              <div className="grid grid-cols-4 gap-3">
-                {filteredColors.map(color => (
-                  <button
-                    key={color.code}
-                    onClick={() => setTempColor(color)}
-                    className={`relative group aspect-square rounded-xl border-2 transition-all ${
-                      tempColor?.code === color.code 
-                        ? 'border-[#1e3a5f] ring-2 ring-[#1e3a5f]/20 scale-105' 
-                        : 'border-slate-200 hover:scale-105'
-                    }`}
-                    style={{ backgroundColor: color.hex }}
-                  >
+            {Object.keys(paintColors).map(b => (
+              <TabsContent key={b} value={b} className="flex-1 overflow-auto p-4 mt-0">
+                {favorites.length > 0 && (
+                  <div className="mb-4">
+                    <h4 className="text-sm font-medium text-slate-600 mb-2 flex items-center gap-2">
+                      <Heart className="w-4 h-4 text-red-500 fill-red-500" /> Favorites
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {favorites.map(color => (
+                        <button
+                          key={color.code}
+                          onClick={() => setTempColor(color)}
+                          className={`w-10 h-10 rounded-lg border-2 ${
+                            tempColor?.code === color.code ? 'border-[#1e3a5f] ring-2 ring-[#1e3a5f]/20' : 'border-slate-200'
+                          }`}
+                          style={{ backgroundColor: color.hex }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-4 gap-3">
+                  {filteredColors.map(color => (
                     <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleFavorite(color);
-                      }}
-                      className="absolute top-1 right-1 p-1 bg-white/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      key={color.code}
+                      onClick={() => setTempColor(color)}
+                      className={`relative group aspect-square rounded-xl border-2 transition-all ${
+                        tempColor?.code === color.code 
+                          ? 'border-[#1e3a5f] ring-2 ring-[#1e3a5f]/20 scale-105' 
+                          : 'border-slate-200 hover:scale-105'
+                      }`}
+                      style={{ backgroundColor: color.hex }}
                     >
-                      <Heart className={`w-3 h-3 ${
-                        favorites.some(f => f.code === color.code) 
-                          ? 'text-red-500 fill-red-500' 
-                          : 'text-slate-400'
-                      }`} />
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleFavorite(color);
+                        }}
+                        className="absolute top-1 right-1 p-1 bg-white/80 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Heart className={`w-3 h-3 ${
+                          favorites.some(f => f.code === color.code) 
+                            ? 'text-red-500 fill-red-500' 
+                            : 'text-slate-400'
+                        }`} />
+                      </button>
+                      {tempColor?.code === color.code && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Check className="w-6 h-6 text-white drop-shadow-lg" />
+                        </div>
+                      )}
                     </button>
-                    {tempColor?.code === color.code && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <Check className="w-6 h-6 text-white drop-shadow-lg" />
-                      </div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
+                  ))}
+                </div>
+              </TabsContent>
+            ))}
+          </Tabs>
+        )}
 
         {tempColor && (
           <div className="p-4 border-t bg-slate-50">
