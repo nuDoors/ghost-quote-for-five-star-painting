@@ -73,7 +73,7 @@ export default function ServiceSelection({ onSelect, onBack }) {
             onClick={() => onSelect(service.id)}
             className="group cursor-pointer h-full"
           >
-            <div className="relative bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-[#1e3a5f] transition-all duration-300 hover:shadow-xl">
+            <div className="relative bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-[#1e3a5f] transition-all duration-300 hover:shadow-xl h-full">
               <div className="h-36 overflow-hidden">
                 <img
                   src={service.image}
