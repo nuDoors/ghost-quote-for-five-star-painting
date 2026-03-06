@@ -27,8 +27,8 @@ const services = [
   },
   {
     id: 'trim',
-    name: 'Trim & Doors',
-    description: 'Detail work that makes a difference',
+    name: 'Wallpaper',
+    description: 'Expert wallpaper installation and removal',
     icon: DoorOpen,
     image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop'
   },

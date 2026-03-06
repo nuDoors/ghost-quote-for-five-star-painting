@@ -25,8 +25,8 @@ const serviceConfig = {
   },
   trim: {
     icon: DoorOpen,
-    title: 'Trim & Doors Details',
-    description: 'Estimate your trim work'
+    title: 'Wallpaper Details',
+    description: 'Tell us about your wallpaper project'
   },
   deck: {
     icon: Fence,
@@ -322,19 +322,19 @@ export default function ProjectDetails({ service, onComplete, onBack }) {
   const renderTrimForm = () => (
     <div className="space-y-6">
       <div>
-        <Label className="text-base font-medium text-slate-900">Estimated Linear Feet</Label>
-        <p className="text-sm text-slate-500 mb-3">Total length of trim, baseboards, and doors</p>
+        <Label className="text-base font-medium text-slate-900">Estimated Square Feet</Label>
+        <p className="text-sm text-slate-500 mb-3">Total wall area to be wallpapered</p>
         <div className="flex items-center gap-4">
           <Slider
             value={[details.linearFeet || 200]}
             onValueChange={([v]) => updateDetail('linearFeet', v)}
             min={50}
-            max={500}
-            step={10}
+            max={1000}
+            step={25}
             className="flex-1"
           />
-          <span className="text-2xl font-bold text-[#1e3a5f] w-20 text-center">
-            {details.linearFeet || 200} ft
+          <span className="text-2xl font-bold text-[#1e3a5f] w-24 text-center">
+            {details.linearFeet || 200} sq ft
           </span>
         </div>
       </div>

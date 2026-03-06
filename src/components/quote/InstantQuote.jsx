@@ -8,7 +8,7 @@ const serviceLabels = {
   interior: 'Interior Painting',
   exterior: 'Exterior Painting',
   cabinet: 'Cabinet Painting',
-  trim: 'Trim & Doors',
+  trim: 'Wallpaper',
   deck: 'Deck & Fence Staining',
   garage: 'Garage Floor Coating'
 };
@@ -38,9 +38,9 @@ const getLineItems = (service, details) => {
       items.push({ label: `${details.finishTier?.charAt(0).toUpperCase()}${details.finishTier?.slice(1) || 'Standard'} Finish`, included: true });
       break;
     case 'trim':
-      items.push({ label: `${details.linearFeet || 200} Linear Feet`, included: true });
-      items.push({ label: 'Baseboards & Crown', included: true });
-      items.push({ label: 'Door Frames', included: true });
+      items.push({ label: `${details.linearFeet || 200} Square Feet`, included: true });
+      items.push({ label: 'Wallpaper Installation', included: true });
+      items.push({ label: 'Surface Prep & Priming', included: true });
       break;
     case 'deck':
       items.push({ label: `${details.squareFeet || 300} Square Feet`, included: true });

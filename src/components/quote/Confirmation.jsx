@@ -9,7 +9,7 @@ const serviceLabels = {
   interior: 'Interior Painting',
   exterior: 'Exterior Painting',
   cabinet: 'Cabinet Painting',
-  trim: 'Trim & Doors',
+  trim: 'Wallpaper',
   deck: 'Deck & Fence Staining'
 };
 
