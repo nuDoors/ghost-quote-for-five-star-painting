@@ -32,6 +32,11 @@ const serviceConfig = {
     icon: Fence,
     title: 'Deck & Fence Details',
     description: 'Describe your outdoor surfaces'
+  },
+  garage: {
+    icon: Car,
+    title: 'Garage Floor Details',
+    description: 'Tell us about your garage floor'
   }
 };
 
@@ -462,6 +467,79 @@ export default function ProjectDetails({ service, onComplete, onBack }) {
     </div>
   );
 
+  const renderGarageForm = () => (
+    <div className="space-y-6">
+      <div>
+        <Label className="text-base font-medium text-slate-900">Estimated Square Feet</Label>
+        <p className="text-sm text-slate-500 mb-3">Total area of the garage floor</p>
+        <div className="flex items-center gap-4">
+          <Slider
+            value={[details.squareFeet || 400]}
+            onValueChange={([v]) => updateDetail('squareFeet', v)}
+            min={100}
+            max={1200}
+            step={25}
+            className="flex-1"
+          />
+          <span className="text-2xl font-bold text-[#1e3a5f] w-24 text-center">
+            {details.squareFeet || 400} sq ft
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <Label className="text-base font-medium text-slate-900 block mb-3">Coating Type</Label>
+        <RadioGroup
+          value={details.coatingType || 'epoxy'}
+          onValueChange={(v) => updateDetail('coatingType', v)}
+          className="grid grid-cols-2 gap-3"
+        >
+          {[
+            { value: 'epoxy', label: 'Epoxy', desc: 'Durable, high-gloss finish' },
+            { value: 'polyurea', label: 'Polyurea', desc: 'Fast-cure, UV stable' }
+          ].map((opt) => (
+            <div key={opt.value}>
+              <RadioGroupItem value={opt.value} id={`coating-${opt.value}`} className="peer sr-only" />
+              <Label
+                htmlFor={`coating-${opt.value}`}
+                className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border-2 border-slate-200 cursor-pointer hover:bg-slate-100 peer-data-[state=checked]:border-[#1e3a5f] peer-data-[state=checked]:bg-[#1e3a5f]/5 transition-all"
+              >
+                <span className="font-semibold text-slate-900">{opt.label}</span>
+                <span className="text-xs text-slate-500 mt-1 text-center">{opt.desc}</span>
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
+      </div>
+
+      <div>
+        <Label className="text-base font-medium text-slate-900 block mb-3">Current Condition</Label>
+        <RadioGroup
+          value={details.condition || 'good'}
+          onValueChange={(v) => updateDetail('condition', v)}
+          className="grid grid-cols-3 gap-3"
+        >
+          {[
+            { value: 'new', label: 'New', desc: 'Never coated' },
+            { value: 'good', label: 'Good', desc: 'Minor cracks only' },
+            { value: 'fair', label: 'Fair', desc: 'Needs patching' }
+          ].map((cond) => (
+            <div key={cond.value}>
+              <RadioGroupItem value={cond.value} id={`gcond-${cond.value}`} className="peer sr-only" />
+              <Label
+                htmlFor={`gcond-${cond.value}`}
+                className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border-2 border-slate-200 cursor-pointer hover:bg-slate-100 peer-data-[state=checked]:border-[#1e3a5f] peer-data-[state=checked]:bg-[#1e3a5f]/5 transition-all"
+              >
+                <span className="font-semibold text-slate-900">{cond.label}</span>
+                <span className="text-xs text-slate-500 mt-1 text-center">{cond.desc}</span>
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
+      </div>
+    </div>
+  );
+
   const renderForm = () => {
     switch (service) {
       case 'interior': return renderInteriorForm();
@@ -469,6 +547,7 @@ export default function ProjectDetails({ service, onComplete, onBack }) {
       case 'cabinet': return renderCabinetForm();
       case 'trim': return renderTrimForm();
       case 'deck': return renderDeckForm();
+      case 'garage': return renderGarageForm();
       default: return null;
     }
   };
