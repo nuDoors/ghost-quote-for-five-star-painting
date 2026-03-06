@@ -74,14 +74,13 @@ export default function BookingForm({ zip, quote, onComplete, onBack }) {
         >
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             {/* Profile Video */}
-            <div className="flex-shrink-0 relative">
-              <iframe
-                width="96"
-                height="96"
-                src="https://www.youtube.com/embed/1Cmx5jEXX8I?autoplay=1&mute=1&loop=1&playlist=1Cmx5jEXX8I&controls=0"
-                frameBorder="0"
-                allow="autoplay"
-                className="rounded-full ring-4 ring-white shadow-md"
+            <div className="flex-shrink-0">
+              <video
+                autoPlay
+                loop
+                muted
+                className="w-24 h-24 rounded-full ring-4 ring-white shadow-md object-cover"
+                src="https://base44.app/api/apps/69a72dd4b7aaafa27f7f2697/files/public/69a72dd4b7aaafa27f7f2697/dd5b08f1c_ElevenLabs_video_creatify-aurora_2026-03-06T03_21_59.mp4"
               />
             </div>
 
