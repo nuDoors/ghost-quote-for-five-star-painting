@@ -37,7 +37,7 @@ export default function StepIndicator({ currentStep }) {
                 )}
               </motion.div>
               <span className={`mt-2 text-xs font-medium hidden md:block ${
-                currentStep >= step.id ? 'text-[#1e3a5f]' : 'text-slate-400'
+                currentStep >= step.id ? 'text-[#c8540a]' : 'text-slate-400'
               }`}>
                 {step.name}
               </span>
