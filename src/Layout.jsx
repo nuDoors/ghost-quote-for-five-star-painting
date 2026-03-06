@@ -1,4 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Home } from 'lucide-react';
+import { createPageUrl } from '@/utils';
 
 export default function Layout({ children }) {
   return (
@@ -23,6 +26,16 @@ export default function Layout({ children }) {
           background: linear-gradient(135deg, #f5f7fa 0%, #eef1f6 100%);
         }
       `}</style>
+      
+      {/* Home Button */}
+      <Link
+        to={createPageUrl('Home')}
+        className="fixed top-4 left-4 z-50 p-3 bg-white rounded-full shadow-lg hover:shadow-xl hover:bg-slate-50 transition-all"
+        title="Back to Home"
+      >
+        <Home className="w-5 h-5 text-[#1e3a5f]" />
+      </Link>
+
       {children}
     </div>
   );
