@@ -197,27 +197,12 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center">
               <img
-                src="https://www.fivestarpainting.com/brand/_assets/images/logo/fsp-logo.svg"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/45cbae95b_Screenshot2026-03-05201416.png"
                 alt="Five Star Painting"
                 className="h-12 w-auto"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
               />
-              {/* Fallback logo */}
-              <div className="items-center gap-2 hidden">
-                <div className="w-11 h-11 bg-[#1a3a5c] rounded flex items-center justify-center">
-                  <span className="text-[#c8540a] text-2xl font-black">★</span>
-                </div>
-                <div>
-                  <div className="text-[#1a3a5c] font-black text-lg leading-none tracking-tight uppercase">Five Star</div>
-                  <div className="text-[#1a3a5c] font-black text-lg leading-none tracking-tight uppercase">Painting</div>
-                  <div className="text-slate-400 text-[9px] tracking-widest uppercase">a neighborly company</div>
-                </div>
-              </div>
             </div>
 
             {/* Right side */}
