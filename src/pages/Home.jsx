@@ -201,7 +201,7 @@ export default function Home() {
               <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/35e9a74f8_NeighborlyXGhostQuoteaiPitchDeck.jpg"
                 alt="Five Star Painting"
-                className="h-20 w-auto"
+                className="h-28 w-auto"
               />
             </div>
 
