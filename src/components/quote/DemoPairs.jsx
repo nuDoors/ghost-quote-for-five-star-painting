@@ -70,7 +70,7 @@ export const builtInDemoPairs = [
     service: 'deck',
     scenario_name: 'Warm Cedar Stain',
     before_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/f169d21ea_ChatGPTImageMar5202608_46_20PM.png',
-    after_url: 'https://images.unsplash.com/photo-1567684014761-b65e2e59b9eb?w=1200&h=800&fit=crop',
+    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/a9db26b62_ChatGPTImageMar5202608_58_26PM.png',
     color_tags: ['cedar', 'brown', 'warm'],
     is_default: true
   }
