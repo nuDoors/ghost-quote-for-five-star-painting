@@ -18,6 +18,7 @@ const ALL_SURFACES = [
   { id: 'cabinet_doors',  name: 'Cabinet Doors',    color: '#f43f5e', services: ['cabinet'] },
   { id: 'cabinet_frames', name: 'Cabinet Frames',   color: '#06b6d4', services: ['cabinet'] },
   { id: 'deck',           name: 'Deck / Fence',     color: '#92400e', services: ['deck'] },
+  { id: 'garage_floor',  name: 'Garage Floor',     color: '#6b7280', services: ['garage'] },
 ];
 
 const ANALYZING_MESSAGES = [
