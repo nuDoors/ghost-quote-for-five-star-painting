@@ -70,7 +70,7 @@ export const builtInDemoPairs = [
     service: 'garage',
     scenario_name: 'Epoxy Garage Floor',
     before_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/4a5b865e8_ChatGPTImageMar5202609_13_04PM.png',
-    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/4a5b865e8_ChatGPTImageMar5202609_13_04PM.png',
+    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/dee8935c6_ChatGPTImageMar5202609_23_01PM.png',
     color_tags: ['gray', 'epoxy', 'coating'],
     is_default: true
   },
