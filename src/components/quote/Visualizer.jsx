@@ -432,13 +432,14 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
           )}
 
           {/* Continue button */}
-          <Button
-            onClick={() => onComplete({ surfaceColors, activePair })}
-            className="w-full h-12 font-semibold bg-[#1e3a5f] hover:bg-[#2a4d7a] rounded-xl"
-          >
-            Continue to Quote
-            <ArrowRight className="ml-2 w-4 h-4" />
-          </Button>
+           <Button
+             onClick={() => onComplete({ surfaceColors, activePair })}
+             disabled={!rendered}
+             className="w-full h-12 font-semibold bg-[#1e3a5f] hover:bg-[#2a4d7a] rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+           >
+             Continue to Quote
+             <ArrowRight className="ml-2 w-4 h-4" />
+           </Button>
         </div>
       </div>
 
