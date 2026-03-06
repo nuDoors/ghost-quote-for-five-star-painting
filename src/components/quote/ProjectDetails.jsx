@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Home, Building, Grid3X3, DoorOpen, Fence } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Home, Building, Grid3X3, DoorOpen, Fence, Car } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
