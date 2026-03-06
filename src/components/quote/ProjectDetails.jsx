@@ -582,7 +582,7 @@ export default function ProjectDetails({ service, onComplete, onBack }) {
         onClick={() => onComplete(details)}
         className="w-full h-14 text-lg font-semibold bg-[#1e3a5f] hover:bg-[#2a4d7a] rounded-xl"
       >
-        Continue to Photos
+        Continue to Quote
         <ArrowRight className="ml-2 w-5 h-5" />
       </Button>
     </motion.div>
