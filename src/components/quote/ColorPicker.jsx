@@ -252,7 +252,7 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
               </div>
             </div>}
 
-            <Button
+            {!isGarage && <Button
               onClick={handleConfirm}
               className="w-full h-12 bg-[#1e3a5f] hover:bg-[#2a4d7a] rounded-xl font-semibold"
             >
