@@ -172,7 +172,7 @@ export default function InstantQuote({ service, details, photos, visualizerSelec
           <div className="h-2 bg-white/20 rounded-full overflow-hidden">
             <motion.div
               initial={{ width: 0 }}
-              animate={{ width: `${confidence}%` }}
+              animate={{ width: '85%' }}
               transition={{ duration: 1, delay: 0.3 }}
               className="h-full bg-emerald-400"
             />
