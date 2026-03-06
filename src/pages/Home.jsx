@@ -220,6 +220,10 @@ export default function Home() {
         {/* Step Indicator */}
         {currentStep < 8 &&
         <div className="border-t border-slate-100 bg-slate-50">
+            <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-center gap-6">
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/565c7bc7e_NeighborlyXGhostQuoteaiPitchDeck2.svg"
+              alt="GhostQuote.ai" className="h-16 w-auto" />
+            </div>
             <div className="max-w-6xl mx-auto px-4">
               <StepIndicator currentStep={currentStep} />
             </div>
