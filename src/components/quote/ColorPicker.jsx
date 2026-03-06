@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { paintColors, sheenOptions, stainColors, stainFinishOptions, garageFlakeColors } from './MockData';
+import FlakeChip from './FlakeChip';
 
 export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceId }) {
   const isStain = surfaceId === 'deck';
