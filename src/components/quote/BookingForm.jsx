@@ -86,54 +86,54 @@ export default function BookingForm({ zip, quote, onComplete, onBack }) {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-[#1e3a5f]/10 to-[#c8540a]/5 border-2 border-[#1e3a5f]/30 rounded-2xl p-6 mb-6 shadow-lg"
+          className="bg-gradient-to-br from-[#1e3a5f]/10 to-[#c8540a]/5 border-2 border-[#1e3a5f]/30 rounded-2xl p-4 mb-6 shadow-lg"
         >
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
             {/* Profile Video */}
             <div className="flex-shrink-0">
               <video
                 autoPlay
                 loop
-                className="w-24 h-24 rounded-full ring-4 ring-white shadow-md object-cover"
+                className="w-20 h-20 rounded-full ring-3 ring-white shadow-md object-cover"
                 style={{ objectPosition: 'center 35%', transform: 'scale(1.3)' }}
                 src="https://base44.app/api/apps/69a72dd4b7aaafa27f7f2697/files/public/69a72dd4b7aaafa27f7f2697/dd5b08f1c_ElevenLabs_video_creatify-aurora_2026-03-06T03_21_59.mp4"
               />
             </div>
 
             {/* Info Section */}
-            <div className="flex-1 text-center md:text-left">
-              <p className="text-xs font-bold uppercase tracking-wider text-[#c8540a] mb-1">Your Local Expert</p>
-              <p className="text-2xl font-black text-slate-900">{territoryOwner.name}</p>
-              <p className="text-sm font-semibold text-[#1e3a5f] mb-3">{territoryOwner.location}</p>
+            <div className="flex-1 text-center md:text-left min-w-0">
+              <p className="text-xs font-bold uppercase tracking-wider text-[#c8540a] mb-0.5">Your Local Expert</p>
+              <p className="text-xl font-black text-slate-900">{territoryOwner.name}</p>
+              <p className="text-xs font-semibold text-[#1e3a5f] mb-2">{territoryOwner.location}</p>
 
               {/* Customer Reviews Carousel */}
-              <div className="bg-white/80 rounded-xl px-4 py-3 w-full max-w-sm mx-auto md:mx-0">
-                <div className="flex items-start justify-between gap-2">
+              <div className="bg-white/80 rounded-lg px-3 py-2 w-full">
+                <div className="flex items-center justify-between gap-2">
                   <button
                     onClick={() => setReviewIndex((reviewIndex - 1 + reviews.length) % reviews.length)}
-                    className="flex-shrink-0 text-slate-400 hover:text-slate-600 mt-1"
+                    className="flex-shrink-0 text-slate-400 hover:text-slate-600"
                   >
-                    <ChevronLeft className="w-4 h-4" />
+                    <ChevronLeft className="w-3 h-3" />
                   </button>
                   <motion.div
                     key={reviewIndex}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="flex-1 text-center"
+                    className="flex-1 text-center min-w-0"
                   >
-                    <div className="flex gap-1 justify-center mb-2">
+                    <div className="flex gap-0.5 justify-center mb-1">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                        <Star key={i} className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" />
                       ))}
                     </div>
-                    <p className="text-sm text-slate-700 italic mb-1">"{reviews[reviewIndex].text}"</p>
+                    <p className="text-xs text-slate-700 italic mb-0.5 line-clamp-2">"{reviews[reviewIndex].text}"</p>
                     <p className="text-xs font-semibold text-slate-600">— {reviews[reviewIndex].author}</p>
                   </motion.div>
                   <button
                     onClick={() => setReviewIndex((reviewIndex + 1) % reviews.length)}
-                    className="flex-shrink-0 text-slate-400 hover:text-slate-600 mt-1"
+                    className="flex-shrink-0 text-slate-400 hover:text-slate-600"
                   >
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="w-3 h-3" />
                   </button>
                 </div>
               </div>
