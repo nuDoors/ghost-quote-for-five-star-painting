@@ -184,31 +184,62 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100">
+    <div className="min-h-screen fsp-gradient-bg">
+      {/* Top Bar */}
+      <div className="bg-[#1a3a5c] text-white text-xs py-1.5 px-4 text-center">
+        <span className="opacity-80">A Neighborly Company</span>
+        <span className="mx-3 opacity-40">|</span>
+        <a href="tel:8882613633" className="font-semibold hover:underline">(888) 261-3633</a>
+      </div>
+
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-lg border-b border-slate-100">
-        <div className="max-w-6xl mx-auto px-4 py-4">
+      <header className="sticky top-0 z-40 bg-white shadow-md border-b-4 border-[#c8540a]">
+        <div className="max-w-6xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
+            {/* Logo */}
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#1e3a5f] rounded-xl flex items-center justify-center">
-                <span className="text-white text-xl font-bold">★</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-[#1e3a5f]">Five Star Painting</h1>
-                <p className="text-xs text-slate-500">A Neighborly Company</p>
+              <img
+                src="https://www.fivestarpainting.com/brand/_assets/images/logo/fsp-logo.svg"
+                alt="Five Star Painting"
+                className="h-12 w-auto"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              {/* Fallback logo */}
+              <div className="items-center gap-2 hidden">
+                <div className="w-11 h-11 bg-[#1a3a5c] rounded flex items-center justify-center">
+                  <span className="text-[#c8540a] text-2xl font-black">★</span>
+                </div>
+                <div>
+                  <div className="text-[#1a3a5c] font-black text-lg leading-none tracking-tight uppercase">Five Star</div>
+                  <div className="text-[#1a3a5c] font-black text-lg leading-none tracking-tight uppercase">Painting</div>
+                  <div className="text-slate-400 text-[9px] tracking-widest uppercase">a neighborly company</div>
+                </div>
               </div>
             </div>
-            {currentStep < 8 && (
-              <div className="hidden md:block text-sm text-slate-500">
-                Ghost Quote™ Demo
-              </div>
-            )}
+
+            {/* Right side */}
+            <div className="flex items-center gap-4">
+              {currentStep < 8 && (
+                <span className="hidden md:inline-block text-xs font-semibold text-[#c8540a] bg-orange-50 border border-orange-200 px-3 py-1 rounded-full">
+                  Ghost Quote™
+                </span>
+              )}
+              <a href="tel:8882613633" className="hidden sm:flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#14304f] transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 8V5z" />
+                </svg>
+                (888) 261-3633
+              </a>
+            </div>
           </div>
         </div>
-        
+
         {/* Step Indicator */}
         {currentStep < 8 && (
-          <div className="border-t border-slate-100 bg-white/50">
+          <div className="border-t border-slate-100 bg-slate-50">
             <div className="max-w-6xl mx-auto px-4">
               <StepIndicator currentStep={currentStep} />
             </div>
@@ -232,10 +263,26 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-100 bg-white/50 py-6">
-        <div className="max-w-6xl mx-auto px-4 text-center text-sm text-slate-500">
-          <p>© {new Date().getFullYear()} Five Star Painting. All rights reserved.</p>
-          <p className="mt-1">Part of the Neighborly family of home service brands.</p>
+      <footer className="bg-[#1a3a5c] text-white py-8 mt-8">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/10 rounded flex items-center justify-center">
+                <span className="text-[#c8540a] text-xl font-black">★</span>
+              </div>
+              <div>
+                <div className="font-black text-base uppercase tracking-tight">Five Star Painting</div>
+                <div className="text-white/50 text-xs">A Neighborly Company</div>
+              </div>
+            </div>
+            <div className="text-center text-white/60 text-sm">
+              <p>© {new Date().getFullYear()} Five Star Painting. All rights reserved.</p>
+              <p className="mt-0.5">Part of the Neighborly family of home service brands.</p>
+            </div>
+            <div className="text-white/80 text-sm font-semibold">
+              <a href="tel:8882613633" className="hover:text-white">(888) 261-3633</a>
+            </div>
+          </div>
         </div>
       </footer>
     </div>
