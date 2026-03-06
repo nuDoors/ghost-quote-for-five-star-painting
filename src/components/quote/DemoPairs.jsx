@@ -24,7 +24,7 @@ export const builtInDemoPairs = [
     id: 'demo-interior-1',
     service: 'interior',
     scenario_name: 'Bright & Airy',
-    before_url: 'https://images.unsplash.com/photo-1560440021-33f9b867899d?w=1200&h=800&fit=crop',
+    before_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/52c702f0a_BeforeInterior.png',
     after_url: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&h=800&fit=crop',
     color_tags: ['white', 'light', 'bright'],
     is_default: true
