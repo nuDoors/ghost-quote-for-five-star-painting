@@ -70,15 +70,11 @@ export default function InstantQuote({ service, details, photos, visualizerSelec
   const lineItems = getLineItems(service, details);
 
   const getConfidenceColor = () => {
-    if (confidence >= 80) return 'text-emerald-600';
-    if (confidence >= 60) return 'text-amber-600';
-    return 'text-red-600';
+    return 'text-emerald-600';
   };
 
   const getConfidenceLabel = () => {
-    if (confidence >= 80) return 'High Confidence';
-    if (confidence >= 60) return 'Medium Confidence';
-    return 'More Info Needed';
+    return 'High Confidence';
   };
 
   // Calculate monthly payment (assuming 12-month financing at 0% APR for demo)
@@ -178,9 +174,7 @@ export default function InstantQuote({ service, details, photos, visualizerSelec
               initial={{ width: 0 }}
               animate={{ width: `${confidence}%` }}
               transition={{ duration: 1, delay: 0.3 }}
-              className={`h-full ${
-                confidence >= 80 ? 'bg-emerald-400' : confidence >= 60 ? 'bg-amber-400' : 'bg-red-400'
-              }`}
+              className="h-full bg-emerald-400"
             />
           </div>
           <p className="text-xs text-white/60 mt-2">
