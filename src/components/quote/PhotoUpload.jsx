@@ -117,7 +117,7 @@ export default function PhotoUpload({ onComplete, onBack }) {
           </span>
           {!canContinue && (
             <span className="text-amber-600 font-medium">
-              Add at least {3 - photos.length} more
+              Add at least 1 photo
             </span>
           )}
         </div>
