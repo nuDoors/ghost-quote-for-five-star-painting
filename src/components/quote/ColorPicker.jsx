@@ -189,9 +189,9 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
             </div>
 
             <div className="mb-4">
-              <p className="text-sm font-medium text-slate-700 mb-2">Sheen</p>
+              <p className="text-sm font-medium text-slate-700 mb-2">{isStain ? 'Finish' : 'Sheen'}</p>
               <div className="flex gap-2">
-                {sheenOptions.map(sheen => (
+                {(isStain ? stainFinishOptions : sheenOptions).map(sheen => (
                   <button
                     key={sheen.id}
                     onClick={() => setSelectedSheen(sheen.id)}
