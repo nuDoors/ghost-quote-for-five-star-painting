@@ -33,6 +33,13 @@ export default function BookingForm({ zip, quote, onComplete, onBack }) {
   const [step, setStep] = useState(1);
   const [reviewIndex, setReviewIndex] = useState(0);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setReviewIndex((prev) => (prev + 1) % reviews.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const territoryOwner = getTerritoryOwner(zip);
   const availableSlots = formData.bookedDate ? mockAvailability.getSlots(formData.bookedDate) : [];
 
