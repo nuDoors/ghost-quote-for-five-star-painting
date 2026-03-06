@@ -30,7 +30,7 @@ const services = [
     name: 'Wallpaper',
     description: 'Expert wallpaper installation and removal',
     icon: DoorOpen,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop'
+    image: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/21429aa49_ChatGPTImageMar5202609_25_15PM.png'
   },
   {
     id: 'deck',
