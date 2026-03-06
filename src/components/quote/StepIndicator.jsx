@@ -2,6 +2,7 @@ import React from 'react';
 import { Check } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+// Steps: location, service, photos, visualize, details, quote, book
 const steps = [
   { id: 1, name: 'Location' },
   { id: 2, name: 'Service' },
