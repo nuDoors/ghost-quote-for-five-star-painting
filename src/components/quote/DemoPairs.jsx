@@ -69,7 +69,7 @@ export const builtInDemoPairs = [
     id: 'demo-deck-1',
     service: 'deck',
     scenario_name: 'Warm Cedar Stain',
-    before_url: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?w=1200&h=800&fit=crop',
+    before_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/f169d21ea_ChatGPTImageMar5202608_46_20PM.png',
     after_url: 'https://images.unsplash.com/photo-1567684014761-b65e2e59b9eb?w=1200&h=800&fit=crop',
     color_tags: ['cedar', 'brown', 'warm'],
     is_default: true
