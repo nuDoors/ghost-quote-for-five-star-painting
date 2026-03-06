@@ -128,25 +128,25 @@ export default function Home() {
         );
       case 3:
         return (
-          <ProjectDetails
-            service={quoteData.service}
-            onComplete={handleDetailsComplete}
+          <PhotoUpload
+            onComplete={handlePhotosComplete}
             onBack={() => goBack(2)}
           />
         );
       case 4:
         return (
-          <PhotoUpload
-            onComplete={handlePhotosComplete}
+          <Visualizer
+            photos={quoteData.photos}
+            service={quoteData.service}
+            onComplete={handleVisualizerComplete}
             onBack={() => goBack(3)}
           />
         );
       case 5:
         return (
-          <Visualizer
-            photos={quoteData.photos}
+          <ProjectDetails
             service={quoteData.service}
-            onComplete={handleVisualizerComplete}
+            onComplete={handleDetailsComplete}
             onBack={() => goBack(4)}
           />
         );
