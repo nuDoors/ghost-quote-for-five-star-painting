@@ -232,7 +232,7 @@ export default function Home() {
         </div>
 
         {/* Step Indicator */}
-        {currentStep < 8 &&
+        {currentStep === 1 &&
         <div className="border-t border-slate-100 bg-slate-50">
             <div className="max-w-6xl mx-auto px-4">
               <StepIndicator currentStep={currentStep} />
