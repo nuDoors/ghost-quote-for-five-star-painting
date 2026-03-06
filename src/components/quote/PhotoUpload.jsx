@@ -41,7 +41,7 @@ export default function PhotoUpload({ onComplete, onBack }) {
     fileInputRef.current?.click();
   };
 
-  const canContinue = photos.length >= 3;
+  const canContinue = photos.length >= 1;
 
   return (
     <motion.div
