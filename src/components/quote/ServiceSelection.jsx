@@ -23,7 +23,7 @@ const services = [
     name: 'Cabinet Painting',
     description: 'Refresh your kitchen with professionally painted cabinets',
     icon: Grid3X3,
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=300&fit=crop'
+    image: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/6448fcd6d_ChatGPTImageMar5202608_37_44PM.png'
   },
   {
     id: 'trim',
