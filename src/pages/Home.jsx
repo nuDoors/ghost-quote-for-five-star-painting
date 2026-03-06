@@ -208,10 +208,10 @@ export default function Home() {
             {/* Right side */}
             <div className="flex items-center gap-4">
               {currentStep < 8 &&
-              <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/62e5a35c8_NeighborlyXGhostQuoteaiPitchDeck1.jpg"
-                alt="GhostQuote.ai"
-                className="hidden md:block h-10 w-auto" />
+              <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/565c7bc7e_NeighborlyXGhostQuoteaiPitchDeck2.svg"
+
+              alt="GhostQuote.ai" className="hidden md:block h-10 w-auto" />
+
 
               }
               <a href="tel:8882613633" className="hidden sm:flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#14304f] transition-colors">
