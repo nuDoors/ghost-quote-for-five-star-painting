@@ -37,7 +37,7 @@ const services = [
     name: 'Deck & Fence Staining',
     description: 'Protect and beautify your outdoor wood surfaces',
     icon: Fence,
-    image: 'https://images.unsplash.com/photo-1595815771614-ade9d652a65d?w=400&h=300&fit=crop'
+    image: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/92c75c7aa_ChatGPTImageMar5202608_56_46PM.png'
   }
 ];
 
