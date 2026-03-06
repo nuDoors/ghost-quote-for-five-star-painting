@@ -71,7 +71,7 @@ export default function ServiceSelection({ onSelect, onBack }) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.1 }}
             onClick={() => onSelect(service.id)}
-            className="group cursor-pointer"
+            className="group cursor-pointer h-full"
           >
             <div className="relative bg-white rounded-2xl overflow-hidden border-2 border-slate-100 hover:border-[#1e3a5f] transition-all duration-300 hover:shadow-xl">
               <div className="h-36 overflow-hidden">
