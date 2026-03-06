@@ -338,23 +338,127 @@ export default function ProjectDetails({ service, onComplete, onBack }) {
 
   const renderDeckForm = () => (
     <div className="space-y-6">
+      {/* Deck or Fence selection */}
       <div>
-        <Label className="text-base font-medium text-slate-900">Estimated Square Feet</Label>
-        <p className="text-sm text-slate-500 mb-3">Total area of deck and/or fence</p>
-        <div className="flex items-center gap-4">
-          <Slider
-            value={[details.squareFeet || 300]}
-            onValueChange={([v]) => updateDetail('squareFeet', v)}
-            min={100}
-            max={1000}
-            step={25}
-            className="flex-1"
-          />
-          <span className="text-2xl font-bold text-[#1e3a5f] w-24 text-center">
-            {details.squareFeet || 300} sq ft
-          </span>
-        </div>
+        <Label className="text-base font-medium text-slate-900 block mb-3">What are we working on?</Label>
+        <RadioGroup
+          value={details.deckOrFence || 'deck'}
+          onValueChange={(v) => updateDetail('deckOrFence', v)}
+          className="grid grid-cols-2 gap-3"
+        >
+          {[
+            { value: 'deck', label: '🪵 Deck', desc: 'Deck staining or painting' },
+            { value: 'fence', label: '🏡 Fence', desc: 'Fence staining or painting' }
+          ].map((opt) => (
+            <div key={opt.value}>
+              <RadioGroupItem value={opt.value} id={`dof-${opt.value}`} className="peer sr-only" />
+              <Label
+                htmlFor={`dof-${opt.value}`}
+                className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border-2 border-slate-200 cursor-pointer hover:bg-slate-100 peer-data-[state=checked]:border-[#1e3a5f] peer-data-[state=checked]:bg-[#1e3a5f]/5 transition-all"
+              >
+                <span className="text-xl mb-1">{opt.label.split(' ')[0]}</span>
+                <span className="font-semibold text-slate-900">{opt.label.split(' ')[1]}</span>
+                <span className="text-xs text-slate-500 mt-1 text-center">{opt.desc}</span>
+              </Label>
+            </div>
+          ))}
+        </RadioGroup>
       </div>
+
+      {/* Deck fields */}
+      {(details.deckOrFence === 'deck' || !details.deckOrFence) && (
+        <div>
+          <Label className="text-base font-medium text-slate-900">Estimated Square Feet</Label>
+          <p className="text-sm text-slate-500 mb-3">Total area of the deck</p>
+          <div className="flex items-center gap-4">
+            <Slider
+              value={[details.squareFeet || 300]}
+              onValueChange={([v]) => updateDetail('squareFeet', v)}
+              min={100}
+              max={1000}
+              step={25}
+              className="flex-1"
+            />
+            <span className="text-2xl font-bold text-[#1e3a5f] w-24 text-center">
+              {details.squareFeet || 300} sq ft
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Fence fields */}
+      {details.deckOrFence === 'fence' && (
+        <>
+          <div>
+            <Label className="text-base font-medium text-slate-900">Number of Fence Sections</Label>
+            <p className="text-sm text-slate-500 mb-3">Estimate how many panels/sections</p>
+            <div className="flex items-center gap-4">
+              <Slider
+                value={[details.fenceSections || 10]}
+                onValueChange={([v]) => updateDetail('fenceSections', v)}
+                min={1}
+                max={100}
+                step={1}
+                className="flex-1"
+              />
+              <span className="text-2xl font-bold text-[#1e3a5f] w-16 text-center">
+                {details.fenceSections || 10}
+              </span>
+            </div>
+          </div>
+
+          <div>
+            <Label className="text-base font-medium text-slate-900 block mb-3">Fence Type</Label>
+            <RadioGroup
+              value={details.fenceType || 'wood'}
+              onValueChange={(v) => updateDetail('fenceType', v)}
+              className="grid grid-cols-2 gap-3"
+            >
+              {[
+                { value: 'wood', label: 'Wood' },
+                { value: 'vinyl', label: 'Vinyl' },
+                { value: 'chain-link', label: 'Chain Link' },
+                { value: 'wrought-iron', label: 'Wrought Iron' }
+              ].map((type) => (
+                <div key={type.value}>
+                  <RadioGroupItem value={type.value} id={`ftype-${type.value}`} className="peer sr-only" />
+                  <Label
+                    htmlFor={`ftype-${type.value}`}
+                    className="flex items-center justify-center p-4 bg-slate-50 rounded-xl border-2 border-slate-200 cursor-pointer hover:bg-slate-100 peer-data-[state=checked]:border-[#1e3a5f] peer-data-[state=checked]:bg-[#1e3a5f]/5 transition-all"
+                  >
+                    <span className="font-medium text-slate-900">{type.label}</span>
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
+
+          <div>
+            <Label className="text-base font-medium text-slate-900 block mb-3">Paint or Stain?</Label>
+            <RadioGroup
+              value={details.fenceFinish || 'stain'}
+              onValueChange={(v) => updateDetail('fenceFinish', v)}
+              className="grid grid-cols-2 gap-3"
+            >
+              {[
+                { value: 'stain', label: 'Stain', desc: 'Penetrates wood grain' },
+                { value: 'paint', label: 'Paint', desc: 'Solid color coverage' }
+              ].map((opt) => (
+                <div key={opt.value}>
+                  <RadioGroupItem value={opt.value} id={`ffinish-${opt.value}`} className="peer sr-only" />
+                  <Label
+                    htmlFor={`ffinish-${opt.value}`}
+                    className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-xl border-2 border-slate-200 cursor-pointer hover:bg-slate-100 peer-data-[state=checked]:border-[#1e3a5f] peer-data-[state=checked]:bg-[#1e3a5f]/5 transition-all"
+                  >
+                    <span className="font-semibold text-slate-900">{opt.label}</span>
+                    <span className="text-xs text-slate-500 mt-1 text-center">{opt.desc}</span>
+                  </Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
+        </>
+      )}
     </div>
   );
 
