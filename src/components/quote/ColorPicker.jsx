@@ -15,7 +15,12 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
   const [selectedSheen, setSelectedSheen] = useState(isStain ? 'semi-transparent' : 'eggshell');
   const [tempColor, setTempColor] = useState(selectedColor);
 
-  const filteredColors = isStain
+  const filteredColors = isGarage
+    ? garageFlakeColors.filter(color =>
+        color.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        color.code.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : isStain
     ? stainColors.filter(color =>
         color.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         color.code.toLowerCase().includes(searchQuery.toLowerCase())
