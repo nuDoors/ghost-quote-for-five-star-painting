@@ -24,7 +24,7 @@ export default function Home() {
   });
 
   const updateQuoteData = (updates) => {
-    setQuoteData(prev => ({ ...prev, ...updates }));
+    setQuoteData((prev) => ({ ...prev, ...updates }));
   };
 
   const handleZipComplete = (zip) => {
@@ -74,7 +74,7 @@ export default function Home() {
 
   const handleBookingComplete = async (booking) => {
     updateQuoteData({ booking });
-    
+
     // Save lead to database
     try {
       await base44.entities.Lead.create({
@@ -85,7 +85,7 @@ export default function Home() {
         zip: quoteData.zip,
         service: quoteData.service,
         project_details: quoteData.details,
-        photos: quoteData.photos.map(p => p.url),
+        photos: quoteData.photos.map((p) => p.url),
         visualizer_selections: quoteData.visualizerSelections,
         estimate_low: quoteData.quote.estimate.low,
         estimate_high: quoteData.quote.estimate.high,
@@ -102,7 +102,7 @@ export default function Home() {
     } catch (error) {
       console.error('Error saving lead:', error);
     }
-    
+
     setCurrentStep(8);
   };
 
@@ -116,40 +116,40 @@ export default function Home() {
         return (
           <ZipCheck
             onComplete={handleZipComplete}
-            onWaitlist={handleWaitlist}
-          />
-        );
+            onWaitlist={handleWaitlist} />);
+
+
       case 2:
         return (
           <ServiceSelection
             onSelect={handleServiceSelect}
-            onBack={() => goBack(1)}
-          />
-        );
+            onBack={() => goBack(1)} />);
+
+
       case 3:
         return (
           <PhotoUpload
             onComplete={handlePhotosComplete}
-            onBack={() => goBack(2)}
-          />
-        );
+            onBack={() => goBack(2)} />);
+
+
       case 4:
         return (
           <Visualizer
             photos={quoteData.photos}
             service={quoteData.service}
             onComplete={handleVisualizerComplete}
-            onBack={() => goBack(3)}
-          />
-        );
+            onBack={() => goBack(3)} />);
+
+
       case 5:
         return (
           <ProjectDetails
             service={quoteData.service}
             onComplete={handleDetailsComplete}
-            onBack={() => goBack(4)}
-          />
-        );
+            onBack={() => goBack(4)} />);
+
+
       case 6:
         return (
           <InstantQuote
@@ -158,26 +158,26 @@ export default function Home() {
             photos={quoteData.photos}
             visualizerSelections={quoteData.visualizerSelections}
             onComplete={handleQuoteComplete}
-            onBack={() => goBack(5)}
-          />
-        );
+            onBack={() => goBack(5)} />);
+
+
       case 7:
         return (
           <BookingForm
             zip={quoteData.zip}
             quote={quoteData.quote}
             onComplete={handleBookingComplete}
-            onBack={() => goBack(6)}
-          />
-        );
+            onBack={() => goBack(6)} />);
+
+
       case 8:
         return (
           <Confirmation
             bookingData={quoteData.booking}
             service={quoteData.service}
-            quote={quoteData.quote}
-          />
-        );
+            quote={quoteData.quote} />);
+
+
       default:
         return null;
     }
@@ -201,19 +201,19 @@ export default function Home() {
               <img
                 src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/35e9a74f8_NeighborlyXGhostQuoteaiPitchDeck.jpg"
                 alt="Five Star Painting"
-                className="h-28 w-auto"
-              />
+                className="h-28 w-auto" />
+
             </div>
 
             {/* Right side */}
             <div className="flex items-center gap-4">
-              {currentStep < 8 && (
-                <img
-                  src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/62e5a35c8_NeighborlyXGhostQuoteaiPitchDeck1.jpg"
-                  alt="GhostQuote.ai"
-                  className="hidden md:block h-10 w-auto"
-                />
-              )}
+              {currentStep < 8 &&
+              <img
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/62e5a35c8_NeighborlyXGhostQuoteaiPitchDeck1.jpg"
+                alt="GhostQuote.ai"
+                className="hidden md:block h-10 w-auto" />
+
+              }
               <a href="tel:8882613633" className="hidden sm:flex items-center gap-2 bg-[#1a3a5c] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#14304f] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 8V5z" />
@@ -225,13 +225,13 @@ export default function Home() {
         </div>
 
         {/* Step Indicator */}
-        {currentStep < 8 && (
-          <div className="border-t border-slate-100 bg-slate-50">
+        {currentStep < 8 &&
+        <div className="border-t border-slate-100 bg-slate-50">
             <div className="max-w-6xl mx-auto px-4">
               <StepIndicator currentStep={currentStep} />
             </div>
           </div>
-        )}
+        }
       </header>
 
       {/* Main Content */}
@@ -242,8 +242,8 @@ export default function Home() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
+            transition={{ duration: 0.3 }}>
+
             {renderStep()}
           </motion.div>
         </AnimatePresence>
@@ -254,11 +254,11 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/35e9a74f8_NeighborlyXGhostQuoteaiPitchDeck.jpg"
-                alt="Five Star Painting"
-                className="h-10 w-auto"
-              />
+              
+
+
+
+
             </div>
             <div className="text-center text-white/60 text-sm">
               <p>© {new Date().getFullYear()} Five Star Painting. All rights reserved.</p>
@@ -270,6 +270,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>);
+
 }
