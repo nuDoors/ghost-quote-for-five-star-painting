@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Home as HomeIcon } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import StepIndicator from '@/components/quote/StepIndicator';
 import ZipCheck from '@/components/quote/ZipCheck';
@@ -189,6 +190,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen fsp-gradient-bg">
+      {/* Home Button */}
+      <button
+        onClick={handleHomeClick}
+        className="fixed top-4 left-4 z-50 p-3 bg-white rounded-full shadow-lg hover:shadow-xl hover:bg-slate-50 transition-all"
+        title="Back to Home"
+      >
+        <HomeIcon className="w-5 h-5 text-[#1e3a5f]" />
+      </button>
+
       {/* Top Bar */}
       <div className="bg-[#1a3a5c] text-white text-xs py-1.5 px-4 text-center">
         <span className="opacity-80">A Neighborly Company</span>
