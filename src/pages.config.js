@@ -50,6 +50,7 @@
 import Admin from './pages/Admin';
 import DemoAdmin from './pages/DemoAdmin';
 import Home from './pages/Home';
+import VideoUpload from './pages/VideoUpload';
 import __Layout from './Layout.jsx';
 
 
@@ -57,6 +58,7 @@ export const PAGES = {
     "Admin": Admin,
     "DemoAdmin": DemoAdmin,
     "Home": Home,
+    "VideoUpload": VideoUpload,
 }
 
 export const pagesConfig = {
