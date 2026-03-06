@@ -59,7 +59,7 @@ export default function PhotoUpload({ onComplete, onBack }) {
             Upload Project Photos
           </h2>
           <p className="text-slate-600 mt-1">
-            Add 3-8 photos of the areas you want painted
+            Add at least 1 photo of the area you want painted
           </p>
         </div>
       </div>
