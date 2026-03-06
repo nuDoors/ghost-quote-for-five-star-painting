@@ -43,7 +43,7 @@ export const builtInDemoPairs = [
     service: 'cabinet',
     scenario_name: 'Crisp White Cabinets',
     before_url: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=800&fit=crop',
-    after_url: 'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=1200&h=800&fit=crop',
+    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/54ab2c111_KitchenCabinetsAfter.png',
     color_tags: ['white', 'bright', 'clean'],
     is_default: true
   },
@@ -52,7 +52,7 @@ export const builtInDemoPairs = [
     service: 'cabinet',
     scenario_name: 'Deep Navy Cabinets',
     before_url: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&h=800&fit=crop',
-    after_url: 'https://images.unsplash.com/photo-1556909172-54557c7e4fb7?w=1200&h=800&fit=crop',
+    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/54ab2c111_KitchenCabinetsAfter.png',
     color_tags: ['navy', 'dark', 'bold'],
     is_default: false
   },
