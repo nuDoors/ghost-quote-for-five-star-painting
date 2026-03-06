@@ -250,7 +250,7 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
                   </button>
                 ))}
               </div>
-            </div>
+            </div>}
 
             <Button
               onClick={handleConfirm}
