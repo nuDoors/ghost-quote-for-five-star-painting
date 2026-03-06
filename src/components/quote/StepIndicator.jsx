@@ -6,9 +6,9 @@ import { motion } from 'framer-motion';
 const steps = [
   { id: 1, name: 'Location' },
   { id: 2, name: 'Service' },
-  { id: 3, name: 'Details' },
-  { id: 4, name: 'Photos' },
-  { id: 5, name: 'Visualize' },
+  { id: 3, name: 'Photos' },
+  { id: 4, name: 'Visualize' },
+  { id: 5, name: 'Details' },
   { id: 6, name: 'Quote' },
   { id: 7, name: 'Book' }
 ];
