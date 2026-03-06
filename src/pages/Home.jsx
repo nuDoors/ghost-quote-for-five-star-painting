@@ -237,11 +237,13 @@ export default function Home() {
             <div className="max-w-6xl mx-auto px-4">
               <StepIndicator currentStep={currentStep} />
             </div>
-            <div className="border-t border-slate-200 py-3 text-center">
-              <div className="flex items-center justify-center gap-2 text-sm text-slate-600">
-                <span>Powered by</span>
+            <div className="border-t border-slate-200 py-4 text-center">
+              <div className="flex items-center justify-center gap-3 text-sm text-slate-600">
+                <div className="flex-1 border-t border-slate-300"></div>
+                <span className="px-3">Powered by</span>
                 <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/565c7bc7e_NeighborlyXGhostQuoteaiPitchDeck2.svg"
-                alt="GhostQuote.ai" className="h-24 w-auto" />
+                alt="GhostQuote.ai" className="h-5 w-auto" />
+                <div className="flex-1 border-t border-slate-300"></div>
               </div>
             </div>
           </div>
