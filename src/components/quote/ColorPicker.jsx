@@ -233,7 +233,7 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
               </div>
             </div>
 
-            <div className="mb-4">
+            {!isGarage && <div className="mb-4">
               <p className="text-sm font-medium text-slate-700 mb-2">{isStain ? 'Finish' : 'Sheen'}</p>
               <div className="flex gap-2">
                 {(isStain ? stainFinishOptions : sheenOptions).map(sheen => (
