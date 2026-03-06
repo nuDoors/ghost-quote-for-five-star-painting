@@ -199,7 +199,7 @@ export default function Home() {
             {/* Logo */}
             <div className="flex items-center">
               <img
-                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/45cbae95b_Screenshot2026-03-05201416.png"
+                src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/35e9a74f8_NeighborlyXGhostQuoteaiPitchDeck.jpg"
                 alt="Five Star Painting"
                 className="h-12 w-auto"
               />
