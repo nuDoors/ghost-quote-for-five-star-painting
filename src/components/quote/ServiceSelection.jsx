@@ -85,7 +85,7 @@ export default function ServiceSelection({ onSelect, onBack }) {
                 <img
                   src={service.image}
                   alt={service.name}
-                  className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${service.id === 'garage' ? 'object-top' : ''}`}
+                  className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ${service.id === 'garage' ? 'object-top' : ''} ${service.id === 'trim' ? 'object-bottom' : ''}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               </div>
