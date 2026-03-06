@@ -4,19 +4,25 @@ import { Search, Heart, Check, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { paintColors, sheenOptions } from './MockData';
+import { paintColors, sheenOptions, stainColors, stainFinishOptions } from './MockData';
 
-export default function ColorPicker({ onSelect, onClose, selectedColor }) {
+export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceId }) {
+  const isStain = surfaceId === 'deck';
   const [brand, setBrand] = useState('Sherwin-Williams');
   const [searchQuery, setSearchQuery] = useState('');
   const [favorites, setFavorites] = useState([]);
-  const [selectedSheen, setSelectedSheen] = useState('eggshell');
+  const [selectedSheen, setSelectedSheen] = useState(isStain ? 'semi-transparent' : 'eggshell');
   const [tempColor, setTempColor] = useState(selectedColor);
 
-  const filteredColors = paintColors[brand].filter(color =>
-    color.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    color.code.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredColors = isStain
+    ? stainColors.filter(color =>
+        color.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        color.code.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : paintColors[brand].filter(color =>
+        color.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        color.code.toLowerCase().includes(searchQuery.toLowerCase())
+      );
 
   const toggleFavorite = (color) => {
     setFavorites(prev => 
