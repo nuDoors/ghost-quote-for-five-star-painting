@@ -188,7 +188,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen fsp-gradient-bg" onContextMenu={(e) => { if (e.ctrlKey || e.metaKey) { e.preventDefault(); handleHomeClick(); } }}>
+    <div className="min-h-screen fsp-gradient-bg">
       {/* Top Bar */}
       <div className="bg-[#1a3a5c] text-white text-xs py-1.5 px-4 text-center">
         <span className="opacity-80">A Neighborly Company</span>
