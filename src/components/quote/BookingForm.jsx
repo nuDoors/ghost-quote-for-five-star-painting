@@ -79,7 +79,7 @@ export default function BookingForm({ zip, quote, onComplete, onBack }) {
                 autoPlay
                 loop
                 className="w-24 h-24 rounded-full ring-4 ring-white shadow-md object-cover"
-                style={{ objectPosition: 'center 35%' }}
+                style={{ objectPosition: 'center 35%', transform: 'scale(1.3)' }}
                 src="https://base44.app/api/apps/69a72dd4b7aaafa27f7f2697/files/public/69a72dd4b7aaafa27f7f2697/dd5b08f1c_ElevenLabs_video_creatify-aurora_2026-03-06T03_21_59.mp4"
               />
             </div>
