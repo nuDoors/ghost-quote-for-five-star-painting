@@ -99,16 +99,35 @@ export default function BookingForm({ zip, quote, onComplete, onBack }) {
               <p className="text-2xl font-black text-slate-900">{territoryOwner.name}</p>
               <p className="text-sm font-semibold text-[#1e3a5f] mb-3">{territoryOwner.location}</p>
 
-              {/* Google Reviews */}
-              <div className="flex items-center justify-center md:justify-start gap-3 bg-white/60 rounded-xl px-4 py-2 w-fit mx-auto md:mx-0">
-                <div className="flex gap-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  ))}
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-slate-900">4.9 out of 5</p>
-                  <p className="text-xs text-slate-600">Based on 148 reviews</p>
+              {/* Customer Reviews Carousel */}
+              <div className="bg-white/80 rounded-xl px-4 py-3 w-full max-w-sm mx-auto md:mx-0">
+                <div className="flex items-start justify-between gap-2">
+                  <button
+                    onClick={() => setReviewIndex((reviewIndex - 1 + reviews.length) % reviews.length)}
+                    className="flex-shrink-0 text-slate-400 hover:text-slate-600 mt-1"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <motion.div
+                    key={reviewIndex}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="flex-1 text-center"
+                  >
+                    <div className="flex gap-1 justify-center mb-2">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                      ))}
+                    </div>
+                    <p className="text-sm text-slate-700 italic mb-1">"{reviews[reviewIndex].text}"</p>
+                    <p className="text-xs font-semibold text-slate-600">— {reviews[reviewIndex].author}</p>
+                  </motion.div>
+                  <button
+                    onClick={() => setReviewIndex((reviewIndex + 1) % reviews.length)}
+                    className="flex-shrink-0 text-slate-400 hover:text-slate-600 mt-1"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             </div>
