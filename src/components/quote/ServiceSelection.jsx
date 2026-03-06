@@ -44,7 +44,7 @@ const services = [
     name: 'Garage Floor Coating',
     description: 'Durable epoxy or polyurea coatings for garage floors',
     icon: Car,
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop'
+    image: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/bd36ac6f3_ChatGPTImageMar5202609_05_44PM.png'
   }
 ];
 
