@@ -80,6 +80,22 @@ export const paintColors = {
   ]
 };
 
+// Stain colors for deck/fence
+export const stainColors = [
+  { code: "STN-01", name: "Natural", hex: "#C8922A", description: "Enhances natural wood grain" },
+  { code: "STN-02", name: "Cedar", hex: "#A0522D", description: "Warm reddish-brown tone" },
+  { code: "STN-03", name: "Light Walnut", hex: "#8B6343", description: "Medium warm brown" },
+  { code: "STN-04", name: "Dark Walnut", hex: "#4A2E1A", description: "Deep rich brown" },
+  { code: "STN-05", name: "Driftwood Gray", hex: "#A8A89A", description: "Weathered gray-silver tone" },
+];
+
+// Stain finish options
+export const stainFinishOptions = [
+  { id: "transparent", name: "Transparent", description: "Full grain visibility" },
+  { id: "semi-transparent", name: "Semi-Trans", description: "Slight color, grain shows" },
+  { id: "solid", name: "Solid", description: "Full color coverage" },
+];
+
 // Sheen options
 export const sheenOptions = [
   { id: "flat", name: "Flat", description: "No shine, hides imperfections" },
