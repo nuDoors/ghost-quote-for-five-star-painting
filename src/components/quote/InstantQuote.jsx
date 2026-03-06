@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, DollarSign, CheckCircle, AlertCircle, Gauge, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -64,6 +64,7 @@ const getLineItems = (service, details) => {
 };
 
 export default function InstantQuote({ service, details, photos, visualizerSelections, onComplete, onBack }) {
+  const [showMonthly, setShowMonthly] = useState(true);
   const estimate = calculateEstimate(service, details);
   const confidence = calculateConfidence(photos.length, Object.keys(details).length > 2);
   const lineItems = getLineItems(service, details);
@@ -79,6 +80,10 @@ export default function InstantQuote({ service, details, photos, visualizerSelec
     if (confidence >= 60) return 'Medium Confidence';
     return 'More Info Needed';
   };
+
+  // Calculate monthly payment (assuming 12-month financing at 0% APR for demo)
+  const monthlyPayment = Math.round(estimate.low / 12);
+  const monthlyPaymentHigh = Math.round(estimate.high / 12);
 
   return (
     <motion.div
@@ -107,19 +112,55 @@ export default function InstantQuote({ service, details, photos, visualizerSelec
         animate={{ scale: 1 }}
         className="bg-gradient-to-br from-[#1e3a5f] to-[#2a4d7a] rounded-3xl p-6 md:p-8 text-white mb-6"
       >
-        <div className="flex items-center gap-2 mb-4">
-          <DollarSign className="w-5 h-5 text-[#d4a853]" />
-          <span className="text-white/80 font-medium">Estimated Price Range</span>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <DollarSign className="w-5 h-5 text-[#d4a853]" />
+            <span className="text-white/80 font-medium">
+              {showMonthly ? 'Monthly Payment' : 'Total Price Range'}
+            </span>
+          </div>
+          <button
+            onClick={() => setShowMonthly(!showMonthly)}
+            className="text-sm font-semibold bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg transition-colors"
+          >
+            {showMonthly ? 'Total' : 'Monthly'}
+          </button>
         </div>
-        <div className="flex items-baseline gap-2 mb-4">
-          <span className="text-4xl md:text-5xl font-bold">
-            ${estimate.low.toLocaleString()}
-          </span>
-          <span className="text-2xl text-white/60">–</span>
-          <span className="text-4xl md:text-5xl font-bold">
-            ${estimate.high.toLocaleString()}
-          </span>
-        </div>
+
+        {showMonthly ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-baseline gap-2 mb-4"
+          >
+            <span className="text-4xl md:text-5xl font-bold">
+              ${monthlyPayment.toLocaleString()}
+            </span>
+            <span className="text-2xl text-white/60">–</span>
+            <span className="text-4xl md:text-5xl font-bold">
+              ${monthlyPaymentHigh.toLocaleString()}
+            </span>
+            <span className="text-white/60 text-lg ml-2">/mo</span>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex items-baseline gap-2 mb-4"
+          >
+            <span className="text-4xl md:text-5xl font-bold">
+              ${estimate.low.toLocaleString()}
+            </span>
+            <span className="text-2xl text-white/60">–</span>
+            <span className="text-4xl md:text-5xl font-bold">
+              ${estimate.high.toLocaleString()}
+            </span>
+          </motion.div>
+        )}
+
+        {showMonthly && (
+          <p className="text-sm text-white/60 mb-4">12-month financing available</p>
+        )}
         
         {/* Confidence Meter */}
         <div className="bg-white/10 rounded-xl p-4 mt-4">
