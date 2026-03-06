@@ -48,7 +48,12 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
   // Selected demo pair
   const [activePair, setActivePair] = useState(null);
 
-  const relevantSurfaces = ALL_SURFACES.filter(s => s.services.includes(service));
+  const relevantSurfaces = ALL_SURFACES.filter(s => {
+    if (service === 'cabinet') {
+      return s.services.includes(service) && s.id !== 'walls' && s.id !== 'cabinet_frames';
+    }
+    return s.services.includes(service);
+  });
 
   // Load admin-uploaded pairs from DB, fall back to built-ins
   const { data: dbPairs = [] } = useQuery({
