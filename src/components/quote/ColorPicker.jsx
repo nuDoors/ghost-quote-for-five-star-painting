@@ -4,10 +4,11 @@ import { Search, Heart, Check, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
-import { paintColors, sheenOptions, stainColors, stainFinishOptions } from './MockData';
+import { paintColors, sheenOptions, stainColors, stainFinishOptions, garageFlakeColors } from './MockData';
 
 export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceId }) {
   const isStain = surfaceId === 'deck';
+  const isGarage = surfaceId === 'garage_floor';
   const [brand, setBrand] = useState('Sherwin-Williams');
   const [searchQuery, setSearchQuery] = useState('');
   const [favorites, setFavorites] = useState([]);
