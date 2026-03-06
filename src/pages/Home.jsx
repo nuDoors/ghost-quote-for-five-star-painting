@@ -242,7 +242,7 @@ export default function Home() {
                 <div className="flex-1 border-t border-slate-300"></div>
                 <span className="px-1">Powered by</span>
                 <img src="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/565c7bc7e_NeighborlyXGhostQuoteaiPitchDeck2.svg"
-                alt="GhostQuote.ai" className="h-16 w-auto" />
+                alt="GhostQuote.ai" className="h-24 w-auto" />
                 <div className="flex-1 border-t border-slate-300"></div>
               </div>
             </div>
