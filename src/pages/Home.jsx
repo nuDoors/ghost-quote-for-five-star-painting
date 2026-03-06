@@ -52,18 +52,18 @@ export default function Home() {
     setCurrentStep(3);
   };
 
-  const handleDetailsComplete = (details) => {
-    updateQuoteData({ details });
-    setCurrentStep(4);
-  };
-
   const handlePhotosComplete = (photos) => {
     updateQuoteData({ photos });
-    setCurrentStep(5);
+    setCurrentStep(4);
   };
 
   const handleVisualizerComplete = (selections) => {
     updateQuoteData({ visualizerSelections: selections });
+    setCurrentStep(5);
+  };
+
+  const handleDetailsComplete = (details) => {
+    updateQuoteData({ details });
     setCurrentStep(6);
   };
 
