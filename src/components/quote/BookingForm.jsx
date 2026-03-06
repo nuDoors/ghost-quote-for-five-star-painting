@@ -74,14 +74,13 @@ export default function BookingForm({ zip, quote, onComplete, onBack }) {
         >
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
             {/* Profile Video */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 relative">
               <iframe
                 width="96"
                 height="96"
                 src="https://www.youtube.com/embed/1Cmx5jEXX8I?autoplay=1&mute=1&loop=1&playlist=1Cmx5jEXX8I&controls=0"
                 frameBorder="0"
                 allow="autoplay"
-                allowFullScreen
                 className="rounded-full ring-4 ring-white shadow-md"
               />
             </div>
