@@ -25,8 +25,8 @@ export const builtInDemoPairs = [
     service: 'interior',
     scenario_name: 'Bright & Airy',
     before_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/52c702f0a_BeforeInterior.png',
-    after_url: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1200&h=800&fit=crop',
-    color_tags: ['white', 'light', 'bright'],
+    after_url: 'https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/69a72dd4b7aaafa27f7f2697/b030d0e56_ChatGPTImageMar5202609_47_28PM.png',
+    color_tags: ['white', 'light', 'bright', 'green', 'sage'],
     is_default: true
   },
   {
