@@ -28,13 +28,13 @@ export default function Layout({ children }) {
       `}</style>
       
       {/* Home Button */}
-      <Link
-        to={createPageUrl('Home')}
+      <button
+        onClick={() => window.location.reload()}
         className="fixed top-4 left-4 z-50 p-3 bg-white rounded-full shadow-lg hover:shadow-xl hover:bg-slate-50 transition-all"
         title="Back to Home"
       >
         <Home className="w-5 h-5 text-[#1e3a5f]" />
-      </Link>
+      </button>
 
       {children}
     </div>
