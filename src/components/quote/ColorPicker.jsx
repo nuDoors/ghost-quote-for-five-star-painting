@@ -78,7 +78,36 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
           </div>
         </div>
 
-        {isStain ? (
+        {isGarage ? (
+          <div className="flex-1 overflow-auto p-4">
+            <p className="text-xs text-slate-500 mb-4">Decorative flake blends — choose the coating color for your garage floor.</p>
+            <div className="space-y-3">
+              {filteredColors.map(color => (
+                <button
+                  key={color.code}
+                  onClick={() => setTempColor(color)}
+                  className={`w-full flex items-center gap-4 p-3 rounded-xl border-2 transition-all text-left ${
+                    tempColor?.code === color.code
+                      ? 'border-[#1e3a5f] bg-[#1e3a5f]/5 ring-1 ring-[#1e3a5f]/20'
+                      : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  }`}
+                >
+                  <div
+                    className="w-14 h-10 rounded-lg flex-shrink-0 border border-black/10"
+                    style={{ background: `linear-gradient(135deg, ${color.hex}cc, ${color.hex})` }}
+                  />
+                  <div className="flex-1">
+                    <p className="font-semibold text-slate-900">{color.name}</p>
+                    <p className="text-xs text-slate-500">{color.description}</p>
+                  </div>
+                  {tempColor?.code === color.code && (
+                    <Check className="w-5 h-5 text-[#1e3a5f] flex-shrink-0" />
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        ) : isStain ? (
           <div className="flex-1 overflow-auto p-4">
             <p className="text-xs text-slate-500 mb-4">Wood stain colors — select a tone that complements your deck or fence.</p>
             <div className="space-y-3">
