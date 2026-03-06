@@ -24,9 +24,9 @@ export default function StepIndicator({ currentStep }) {
                 animate={{ scale: currentStep >= step.id ? 1 : 0.8 }}
                 className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 ${
                   currentStep > step.id
-                    ? 'bg-emerald-500 text-white'
+                    ? 'bg-[#c8540a] text-white'
                     : currentStep === step.id
-                    ? 'bg-[#1e3a5f] text-white ring-4 ring-[#1e3a5f]/20'
+                    ? 'bg-[#c8540a] text-white ring-4 ring-[#c8540a]/20'
                     : 'bg-slate-100 text-slate-400'
                 }`}
               >
