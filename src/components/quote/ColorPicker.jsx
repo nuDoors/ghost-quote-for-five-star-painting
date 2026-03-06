@@ -93,9 +93,10 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
                       : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                   }`}
                 >
-                  <div
-                    className="w-14 h-10 rounded-lg flex-shrink-0 border border-black/10"
-                    style={{ background: `linear-gradient(135deg, ${color.hex}cc, ${color.hex})` }}
+                  <FlakeChip
+                    colors={color.flakeColors}
+                    size={52}
+                    className="rounded-lg flex-shrink-0 border border-black/10 overflow-hidden"
                   />
                   <div className="flex-1">
                     <p className="font-semibold text-slate-900">{color.name}</p>
