@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Calendar, Clock, MapPin, User, Mail, Phone, MessageSquare, Check } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, MapPin, User, Mail, Phone, MessageSquare, Check, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
