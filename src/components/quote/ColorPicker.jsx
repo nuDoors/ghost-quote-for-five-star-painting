@@ -215,10 +215,18 @@ export default function ColorPicker({ onSelect, onClose, selectedColor, surfaceI
         {tempColor && (
           <div className="p-4 border-t bg-slate-50">
             <div className="flex items-center gap-3 mb-3">
-              <div
-                className="w-12 h-12 rounded-xl border-2 border-slate-200"
-                style={{ backgroundColor: tempColor.hex }}
-              />
+              {isGarage && tempColor.flakeColors ? (
+                <FlakeChip
+                  colors={tempColor.flakeColors}
+                  size={48}
+                  className="rounded-xl border-2 border-slate-200 overflow-hidden flex-shrink-0"
+                />
+              ) : (
+                <div
+                  className="w-12 h-12 rounded-xl border-2 border-slate-200"
+                  style={{ backgroundColor: tempColor.hex }}
+                />
+              )}
               <div>
                 <p className="font-semibold text-slate-900">{tempColor.name}</p>
                 <p className="text-sm text-slate-500">{tempColor.code}</p>
