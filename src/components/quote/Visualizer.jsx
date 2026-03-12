@@ -337,7 +337,7 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
                 }}
                 className="w-full h-12 text-base font-semibold rounded-xl bg-[#c8540a] hover:bg-[#e06820] text-white transition-all"
               >
-                <Share2 className="w-4 h-4 mr-2" /> Share This Look
+                <Share2 className="w-4 h-4 mr-2" /> Share This Transformation
               </Button>
 
               {/* Share menu for desktop fallback */}
