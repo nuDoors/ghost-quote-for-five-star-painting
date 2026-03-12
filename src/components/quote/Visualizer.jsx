@@ -321,16 +321,40 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
               className="space-y-2"
             >
               <Button
-                onClick={() => {
+                onClick={async () => {
                   const shareText = "It's amazing what a new exterior color can do. I tried this look with the Five Star Painting Visualizer. What do you think?";
                   const shareUrl = window.location.href;
                   
-                  if (navigator.share) {
-                    navigator.share({
-                      title: 'Five Star Painting Visualizer',
-                      text: shareText,
-                      url: shareUrl
-                    }).catch(() => setShowShareMenu(true));
+                  // Try to share with Web Share API (mobile devices)
+                  if (navigator.share && navigator.canShare) {
+                    try {
+                      // Try to share the after image if available
+                      if (afterUrl) {
+                        const response = await fetch(afterUrl);
+                        const blob = await response.blob();
+                        const file = new File([blob], 'my-paint-transformation.jpg', { type: blob.type });
+                        
+                        if (navigator.canShare({ files: [file] })) {
+                          await navigator.share({
+                            title: 'Five Star Painting Visualizer',
+                            text: shareText,
+                            files: [file]
+                          });
+                          return;
+                        }
+                      }
+                      
+                      // Fallback to text + URL only
+                      await navigator.share({
+                        title: 'Five Star Painting Visualizer',
+                        text: shareText,
+                        url: shareUrl
+                      });
+                    } catch (err) {
+                      if (err.name !== 'AbortError') {
+                        setShowShareMenu(true);
+                      }
+                    }
                   } else {
                     setShowShareMenu(!showShareMenu);
                   }
@@ -366,11 +390,23 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
                     </a>
                     <a
                       href={`https://www.instagram.com/`}
-                      onClick={(e) => {
+                      onClick={async (e) => {
                         e.preventDefault();
                         const text = "It's amazing what a new exterior color can do. I tried this look with the Five Star Painting Visualizer. What do you think?";
-                        navigator.clipboard.writeText(`${text}\n\n${window.location.href}`);
-                        alert('Link copied to clipboard! Open Instagram and paste it in a new post or story.');
+                        
+                        // Try to download the image and copy text
+                        try {
+                          const link = document.createElement('a');
+                          link.href = afterUrl;
+                          link.download = 'my-paint-transformation.jpg';
+                          link.click();
+                          
+                          await navigator.clipboard.writeText(`${text}\n\n${window.location.href}`);
+                          alert('✓ Image downloaded and caption copied! Open Instagram, upload the image, and paste the caption.');
+                        } catch {
+                          navigator.clipboard.writeText(`${text}\n\n${window.location.href}`);
+                          alert('Caption copied to clipboard! Save the image above, then open Instagram and paste the caption.');
+                        }
                       }}
                       className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-sm font-medium text-slate-700"
                     >
@@ -378,11 +414,23 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
                     </a>
                     <a
                       href={`https://www.tiktok.com/`}
-                      onClick={(e) => {
+                      onClick={async (e) => {
                         e.preventDefault();
                         const text = "It's amazing what a new exterior color can do. I tried this look with the Five Star Painting Visualizer. What do you think?";
-                        navigator.clipboard.writeText(`${text}\n\n${window.location.href}`);
-                        alert('Link copied to clipboard! Open TikTok and paste it in a new video caption.');
+                        
+                        // Try to download the image and copy text
+                        try {
+                          const link = document.createElement('a');
+                          link.href = afterUrl;
+                          link.download = 'my-paint-transformation.jpg';
+                          link.click();
+                          
+                          await navigator.clipboard.writeText(`${text}\n\n${window.location.href}`);
+                          alert('✓ Image downloaded and caption copied! Open TikTok, upload the image, and paste the caption.');
+                        } catch {
+                          navigator.clipboard.writeText(`${text}\n\n${window.location.href}`);
+                          alert('Caption copied to clipboard! Save the image above, then open TikTok and paste the caption.');
+                        }
                       }}
                       className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-sm font-medium text-slate-700"
                     >
