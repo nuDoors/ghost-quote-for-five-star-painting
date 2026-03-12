@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Sparkles, Paintbrush, RotateCcw, CheckCircle2, Share2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Sparkles, Paintbrush, RotateCcw, CheckCircle2, Share2, Mail, Facebook, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
