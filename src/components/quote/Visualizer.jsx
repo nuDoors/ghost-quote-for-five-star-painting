@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Sparkles, Paintbrush, RotateCcw, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight, Sparkles, Paintbrush, RotateCcw, CheckCircle2, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -311,6 +311,78 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
               </span>
             )}
           </Button>
+
+          {/* Share button */}
+          {rendered && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-2"
+            >
+              <Button
+                onClick={() => {
+                  const shareText = "It's amazing what a new exterior color can do. I tried this look with the Five Star Painting Visualizer. What do you think?";
+                  const shareUrl = window.location.href;
+                  
+                  if (navigator.share) {
+                    navigator.share({
+                      title: 'Five Star Painting Visualizer',
+                      text: shareText,
+                      url: shareUrl
+                    }).catch(() => {});
+                  } else {
+                    // Fallback: open share menu manually
+                    document.getElementById('share-menu')?.classList.toggle('hidden');
+                  }
+                }}
+                className="w-full h-12 text-base font-semibold rounded-xl bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 transition-all"
+              >
+                <Share2 className="w-4 h-4 mr-2" /> Share This Look
+              </Button>
+
+              {/* Share menu for desktop fallback */}
+              <div id="share-menu" className="hidden bg-white rounded-xl border border-slate-200 p-4 shadow-lg">
+                <p className="text-sm font-medium text-slate-900 mb-3">Share on:</p>
+                <div className="grid grid-cols-2 gap-2">
+                  <a
+                    href={`mailto:?subject=Check out my paint color choice!&body=It's amazing what a new exterior color can do. I tried this look with the Five Star Painting Visualizer. What do you think?%0A%0A${window.location.href}`}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-sm font-medium text-slate-700"
+                    target="_blank"
+                  >
+                    📧 Email
+                  </a>
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent("It's amazing what a new exterior color can do. I tried this look with the Five Star Painting Visualizer. What do you think?")}`}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-sm font-medium text-slate-700"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    📘 Facebook
+                  </a>
+                  <button
+                    onClick={() => {
+                      const text = "It's amazing what a new exterior color can do. I tried this look with the Five Star Painting Visualizer. What do you think?";
+                      navigator.clipboard.writeText(`${text}\n\n${window.location.href}`);
+                      alert('Link copied! You can now paste it on Instagram, TikTok, or anywhere else.');
+                    }}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-sm font-medium text-slate-700"
+                  >
+                    📷 Instagram
+                  </button>
+                  <button
+                    onClick={() => {
+                      const text = "It's amazing what a new exterior color can do. I tried this look with the Five Star Painting Visualizer. What do you think?";
+                      navigator.clipboard.writeText(`${text}\n\n${window.location.href}`);
+                      alert('Link copied! You can now paste it on TikTok or anywhere else.');
+                    }}
+                    className="flex items-center gap-2 px-3 py-2 rounded-lg border border-slate-200 hover:bg-slate-50 text-sm font-medium text-slate-700"
+                  >
+                    🎵 TikTok
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* Scenario selector if multiple pairs */}
           {allPairs.length > 1 && (
