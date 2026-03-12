@@ -335,7 +335,7 @@ export default function Visualizer({ photos, service, onComplete, onBack }) {
                     document.getElementById('share-menu')?.classList.toggle('hidden');
                   }
                 }}
-                className="w-full h-12 text-base font-semibold rounded-xl bg-white border-2 border-slate-300 text-slate-700 hover:bg-slate-50 transition-all"
+                className="w-full h-12 text-base font-semibold rounded-xl bg-[#c8540a] hover:bg-[#e06820] text-white transition-all"
               >
                 <Share2 className="w-4 h-4 mr-2" /> Share This Look
               </Button>
